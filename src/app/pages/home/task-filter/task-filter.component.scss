@@ -1,0 +1,15 @@
+@use '../../../shared//styles/mixins' as *;
+:host{
+   @include host-full
+}
+
+mat-form-field{
+    width: 30%;
+}
+
+@media screen and (max-width: 668px) {
+    mat-form-field{
+        width: 70%;
+    }
+  }
+  

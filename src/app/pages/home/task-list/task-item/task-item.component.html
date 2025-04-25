@@ -1,0 +1,33 @@
+<li class="task-item">
+    <p class="task-text">{{ task.todo}}</p>
+    <div class="task-actions">
+      <button mat-icon-button (click)="editTask(task)">
+        <mat-icon class="button-icon">edit</mat-icon>
+      </button>
+    </div>
+    <div class="task-actions">
+      <button mat-icon-button (click)="removeTask(task)">
+        <mat-icon class="button-icon">close</mat-icon>
+      </button>
+    </div>
+    <div class="task-check">
+      <mat-checkbox (change)="toggleStarted()" [checked]="task.started"><p>Started</p></mat-checkbox>
+    </div>
+    <div class="task-check">
+      <mat-checkbox (change)="toggleCompleted()" [checked]="task.completed"><p>Done</p></mat-checkbox>
+    </div>
+    <div class="task-priority">
+      <p>{{ task.priority }}</p>
+    </div>
+  </li>
+
+    <!-- <form *ngIf="noEdit" [formGroup]="taskEdit" (ngSubmit)="submitEdit()" class="task-edit-container">
+      <mat-label>Enter Task</mat-label>
+       <mat-form-field appearance="outline">
+        <input formControlName="taskText" matInput type="text" placeholder="Enter Task"/>
+      </mat-form-field>
+      <button mat-icon-module type="submit" (click)="editTask(task)">
+        <mat-icon class="button-icon">check</mat-icon>
+      </button>
+    </form> -->
+  

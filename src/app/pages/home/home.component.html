@@ -1,0 +1,26 @@
+<div class="task-layout">
+  <h1>Tasks</h1>
+
+  <div class="task-layout__header">
+    <app-task-filter [(filter)]="filter" />
+    <a routerLink="create-task">
+      <app-generic-button text="Add Task" />
+    </a>
+  </div>
+
+  <div class="task-layout__content">
+    <app-task-list
+      *ngIf="filteredTasks.length > 0; else noTasks"
+      [myTasks]="filteredTasks"
+      [isLoading]="isLoading"
+      (toggled)="onToggleTask($event)"
+    />
+    <ng-template #noTasks>
+      <p class="task-layout__no-tasks" *ngIf="!isLoading">No Todos To Display</p>
+    </ng-template>
+  </div>
+
+  <div class="task-layout__footer">
+    <app-task-completion [percentCompleted]="percentCompleted" />
+  </div>
+</div>

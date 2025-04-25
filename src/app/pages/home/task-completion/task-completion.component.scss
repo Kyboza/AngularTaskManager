@@ -1,0 +1,24 @@
+@use '../../../shared/styles/mixins' as *;
+
+:host {
+  @include host-full;
+}
+
+mat-progress-bar {
+  border-radius: 10px;
+  padding: 0;
+  
+  .mat-progress-bar-background {
+    background-color: red;
+  }
+
+  .mat-progress-bar-fill {
+    background-color: orange;
+  }
+}
+
+.percentage__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

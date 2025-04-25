@@ -1,0 +1,36 @@
+<h1 class="task-create__title">Create New Task</h1>
+<form class="task-create__form" [formGroup]="newTask" (ngSubmit)="createTask()">
+
+  <!-- Task Text Input -->
+  <mat-form-field class="task-create__form-field" appearance="outline">
+    <mat-label>Enter Task</mat-label>
+    <input formControlName="taskText" matInput type="text" placeholder="Enter Task"/>
+  </mat-form-field>
+
+  <div class="task-create__error-text" *ngIf="taskTextErrors.length">
+    {{taskTextErrors.join(', ')}}
+  </div>
+
+  <!-- Task Priority Select -->
+  <mat-form-field class="task-create__form-field" appearance="outline">
+    <mat-label>Select Priority</mat-label>
+    <mat-select formControlName="taskPrio">
+      <mat-option value="Low">Low</mat-option>
+      <mat-option value="Medium">Medium</mat-option>
+      <mat-option value="High">High</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="task-create__error-text" *ngIf="newTask.get('taskPrio')?.touched && newTask.get('taskPrio')?.errors?.['required']">
+    <span>This is Required</span>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="task-create__button-container">
+    <app-generic-button 
+      type="submit" 
+      text="Create Task" 
+      [disabled]="!newTask.valid">
+    </app-generic-button>
+  </div>
+</form>

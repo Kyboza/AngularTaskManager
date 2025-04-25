@@ -1,0 +1,6 @@
+@use "sass:map";
+@use './typography' as *;
+
+@function font-size($size-name){
+    @return map.get($font-sizes, $size-name);
+}
