@@ -1,0 +1,16 @@
+<li class="task-item">
+    <div class="project-item-container">
+      <p class="task-text">{{ project.title}}</p>
+      <p>Deadline: {{project.deadline.toISOString().slice(0, 10)}}</p>
+    </div>
+    <div class="task-actions">
+      <button mat-icon-button (click)="editProject(project)">
+        <mat-icon class="button-icon">edit</mat-icon>
+      </button>
+    </div>
+    <div class="task-actions">
+      <button mat-icon-button (click)="removeTask(project)">
+        <mat-icon class="button-icon">close</mat-icon>
+      </button>
+    </div>
+  </li>

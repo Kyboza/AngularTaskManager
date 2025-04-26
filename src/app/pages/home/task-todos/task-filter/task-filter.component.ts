@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Output, EventEmitter, Input } from '@angular/core';
-import { Tasks } from '../../../shared/models/tasks';
+import { Tasks } from '../../../../shared/models/tasks';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 

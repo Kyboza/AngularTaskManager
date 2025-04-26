@@ -1,7 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Tasks } from '../../../../shared/models/tasks';
-import { EventService } from '../../../../shared/services/event-service/event.service';
+import { Tasks } from '../../../../../shared/models/tasks';
+import { EventService } from '../../../../../shared/services/event-service/event.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Output, EventEmitter } from '@angular/core';

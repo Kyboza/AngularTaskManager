@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskItemComponent } from './task-item.component';
-import { Tasks } from '../../../../shared/models/tasks';
+import { Tasks } from '../../../../../shared/models/tasks';
 import { By } from '@angular/platform-browser';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { EventService } from '../../../../shared/services/event-service/event.service'; // Importera EventService
+import { EventService } from '../../../../../shared/services/event-service/event.service'; // Importera EventService
 
 describe('TaskItemComponent', () => {
   let component: TaskItemComponent;
   let fixture: ComponentFixture<TaskItemComponent>;
 
-  const taskMock = new Tasks(1, 'Feed the cat', true, undefined, 'Medium');
+  const taskMock = new Tasks(1, 'Feed the cat', false, true, 'Medium', 1, undefined);
 
   // Mocka EventService
   class MockEventService {

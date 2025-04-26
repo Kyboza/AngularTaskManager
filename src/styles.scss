@@ -18,6 +18,7 @@
 // 2. Allmänna stilar för HTML och BODY
 html, body {
   min-height: 100vh;
+  min-width: 100vw;
   font-family: $quicksand;
   background-color: var(--mat-sys-on-primary);
   color: var(--mat-sys-shadow);
@@ -26,8 +27,6 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-  height: $full-height;
-  width: $full-width;
   background-color: var(--mat-sys-on-primary);
   color: var(--mat-sys-on-background);
 }

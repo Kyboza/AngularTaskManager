@@ -7,7 +7,7 @@ export const parseTasks = (raw: string | any[] | null): Tasks[] => {
         if(!Array.isArray(parsedData)) return []
 
         return parsedData.map((t: any) =>
-            new Tasks(t.id, t.todo, t.started, t.completed, t.userId, t.priority || 'Low')
+            new Tasks(t.id, t.todo, t.started, t.completed, t.priority || 'Low', t.projectId, t.userId)
         );
     }
     catch(error: any){

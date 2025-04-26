@@ -1,0 +1,40 @@
+<div class="task__ul_outer_container">
+    <ul class="task__ul_container" [ngClass]="{'blur': isBlur}">
+        <div class="task__loading_container" *ngIf="isLoading; else showProjects">
+          <mat-progress-spinner class="task__loading_icon" mode="indeterminate" diameter="50"></mat-progress-spinner>
+        </div>
+      
+        <ng-template #showProjects>
+          <app-project-item
+          *ngFor="let project of myProjects" 
+          [project]="project"
+          (toggled)="handleToggle($event)"
+          (enableBlur)="handleBlur($event)"
+          (enableEdit)="handleEdit($event[0], $event[1])"
+          />
+        </ng-template>
+      
+      </ul>
+  
+      <form *ngIf="isEdit" [formGroup]="projectEdit" (ngSubmit)="submitEdit()" class="task-edit-container">
+    
+        <div class="task-edit__inputs">
+          <mat-label class="offscreen">Enter Project</mat-label>
+          <mat-form-field appearance="outline">
+            <input formControlName="projectText" matInput type="text" placeholder="Enter Project" />
+          </mat-form-field>
+      
+          <button mat-icon-button type="submit">
+            <mat-icon class="button-icon">check</mat-icon>
+          </button>
+        </div>
+      
+        <div class="task-edit__errors" *ngIf="projectEdit.get('projectText')?.touched && projectTextErrors.length">
+          <div class="task-edit__error-text">
+            {{ projectTextErrors.join(', ')}}
+          </div>
+        </div>
+      
+      </form>
+      
+  </div>

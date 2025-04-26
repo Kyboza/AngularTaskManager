@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { TaskFilterComponent } from './task-filter.component';
-import { Tasks } from '../../../shared/models/tasks';
+import { Tasks } from '../../../../shared/models/tasks';
 
 describe('TaskFilterComponent', () => {
   let component: TaskFilterComponent;

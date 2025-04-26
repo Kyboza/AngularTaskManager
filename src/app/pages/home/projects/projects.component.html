@@ -1,0 +1,20 @@
+<div class="task-layout">
+    <h1>Projects</h1>
+  
+    
+  
+    <div class="task-layout__content">
+        <app-project-list
+        *ngIf="myProjects.length > 0; else noProjects"
+        [myProjects]="myProjects"
+        [isLoading]="isLoading"
+        />
+        <ng-template #noProjects>
+            <p class="task-layout__no-tasks" *ngIf="!isLoading">No Projects To Display</p>
+        </ng-template>
+    </div>
+  
+    <!-- <div class="task-layout__footer">
+      <app-task-completion [percentCompleted]="percentCompleted" />
+    </div> -->
+  </div>

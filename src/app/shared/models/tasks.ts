@@ -1,5 +1,13 @@
 export class Tasks {
-    constructor(public id: number, public todo: string, public started: boolean = false, public completed: boolean = false, public userId?: number, public priority: string = 'Low'){
+    constructor(
+        public id: number, 
+        public todo: string, 
+        public started: boolean = false, 
+        public completed: boolean = false, 
+        public priority: string = 'Low',
+        public projectId: number = 1,
+        public userId?: number | undefined, 
+    ){
 
     }
 
