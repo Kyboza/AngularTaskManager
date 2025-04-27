@@ -32,7 +32,7 @@ export class ProjectListComponent {
 
     
   projectEdit: FormGroup = new FormGroup({
-    projectText: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25), noWhitespaceValidator])
+    projectText: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(30), noWhitespaceValidator])
   })
 
   submitEdit = () => {

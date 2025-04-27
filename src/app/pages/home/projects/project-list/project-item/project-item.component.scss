@@ -11,25 +11,21 @@
     width: 100%;
     height: 100%; 
     padding: 1rem;
-    box-sizing: border-box;
     border-bottom: 1px solid var(--mat-sys-primary);
   }
   
   .project-item-container{
     display:flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    width: 20%;
   }
   
   .task-text {
-    margin-right: 1rem;
-    width: 40%;
     font-size: medium;
+    cursor: pointer;
   }
   
   .task-actions,
-  .task-check,
   .task-priority {
     display: flex;
     justify-content: center;
@@ -44,8 +40,7 @@
     width: 60px;
     height: 25px;
     border: 1px solid gray;
-    font-size: x-small;
-    margin-left: 0.25rem;
+    padding: 0.2rem;
   }
   
   .task-priority p {

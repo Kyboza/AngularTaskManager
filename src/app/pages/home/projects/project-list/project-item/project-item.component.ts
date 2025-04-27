@@ -5,6 +5,7 @@ import { EventService } from '../../../../../shared/services/event-service/event
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Output, EventEmitter } from '@angular/core';
+import { ProjectService } from '../../../../../shared/services/projectId-service/project.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ProjectItemComponent {
 
   public noEdit: boolean = false
 
-  constructor(public events: EventService){}
+  constructor(public events: EventService, public projectService: ProjectService){}
 
   removeTask = (project: Projects) => {
     const savedProjects = localStorage.getItem('savedProjects')
@@ -34,5 +35,9 @@ export class ProjectItemComponent {
     this.enableBlur.emit(true)
     this.enableEdit.emit([true, project]);
     this.noEdit = !this.noEdit;
+  }
+
+  updateDisplayId = (id: number) => {
+    this.projectService.setProjectId(id)
   }
 }

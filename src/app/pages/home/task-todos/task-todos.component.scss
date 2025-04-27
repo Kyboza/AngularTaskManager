@@ -13,6 +13,18 @@
     padding: 1rem;
 }
 
+.task-top-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.task-back{
+  cursor: pointer;
+}
+
 .task-layout__header {
     width: 100%;
     display: flex;

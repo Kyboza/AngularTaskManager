@@ -11,6 +11,17 @@
     {{taskTextErrors.join(', ')}}
   </div>
 
+  <mat-form-field class="task-create__form-field" appearance="outline">
+    <mat-label>Select Project</mat-label>
+    <mat-select formControlName="taskProject">
+      <mat-option *ngFor="let project of myProjects" [value]="project.id">{{project.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="task-create__error-text" *ngIf="newTask.get('taskProject')?.touched && newTask.get('taskProject')?.errors?.['required']">
+    <span>This is Required</span>
+  </div>
+
   <!-- Task Priority Select -->
   <mat-form-field class="task-create__form-field" appearance="outline">
     <mat-label>Select Priority</mat-label>

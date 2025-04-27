@@ -19,6 +19,8 @@ export class TaskItemComponent {
   @Output() enableBlur = new EventEmitter<boolean>()
   @Output() enableEdit = new EventEmitter<[boolean, Tasks]>();
 
+
+
   public noEdit: boolean = false
 
   constructor(public events: EventService){}
@@ -45,8 +47,8 @@ export class TaskItemComponent {
     this.enableBlur.emit(true)
     this.enableEdit.emit([true, task]);
     this.noEdit = !this.noEdit; // visar inputfältet via *ngIf
-    console.log('Sending',[true, task])
   }
+
   
 
 }

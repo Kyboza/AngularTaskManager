@@ -1,7 +1,11 @@
 <div class="task-layout">
     <h1>Projects</h1>
   
-    
+    <div class="task-layout__header">
+      <a routerLink="create-project">
+        <app-generic-button text="Add Project" />
+      </a>
+    </div>
   
     <div class="task-layout__content">
         <app-project-list
@@ -14,7 +18,5 @@
         </ng-template>
     </div>
   
-    <!-- <div class="task-layout__footer">
-      <app-task-completion [percentCompleted]="percentCompleted" />
-    </div> -->
+    <div class="task-layout__footer"></div>
   </div>

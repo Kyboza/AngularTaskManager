@@ -7,7 +7,7 @@ export const parseProjects = (value: string | any[] | null): Projects[] => {
     if(!Array.isArray(parsedData)) return []
 
     return parsedData.map((p: any) => 
-        new Projects(p.id, p.title, p.deadline ? new Date(p.deadline) : p.deadline)
+        new Projects(p.id, p.title, p.deadline ? new Date(p.deadline) : p.deadline, p.priority || 'Low')
     )
 
    } catch(err: any){

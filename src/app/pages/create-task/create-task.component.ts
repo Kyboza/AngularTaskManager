@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GenericButtonComponent } from '../../shared/generic-button/generic-button.component';
 import { MatFormField } from '@angular/material/select';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormGroup, ReactiveFormsModule, FormControl} from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { EventService } from '../../shared/services/event-service/event.service';
 import { CommonModule } from '@angular/common';
 import { noWhitespaceValidator } from './customValidatorWS';
 import { Tasks } from '../../shared/models/tasks';
 import { Router } from '@angular/router';
+import { Projects } from '../../shared/models/projects';
+import { AllProjectsService } from '../../shared/services/projects-service/allProjects.service';
+import { LaterTaskService } from '../../shared/services/later-task-service/later-task.service';
 
 @Component({
   selector: 'app-create-task',
@@ -17,16 +19,31 @@ import { Router } from '@angular/router';
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.scss'
 })
-export class CreateTaskComponent {
-  constructor(private events: EventService, private router: Router){}
+export class CreateTaskComponent implements OnInit {
+  constructor(private allProjectsService: AllProjectsService, private laterTaskService: LaterTaskService, private router: Router){}
+
+  myProjects: Projects[] = []
+  myTasks: Tasks[] = []
 
   newTask: FormGroup = new FormGroup({
     taskText: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(25), noWhitespaceValidator]),
-    taskPrio: new FormControl("", [Validators.required])
+    taskPrio: new FormControl("", [Validators.required]),
+    taskProject: new FormControl("", [Validators.required])
   })
+
+  ngOnInit(): void {
+    this.allProjectsService.myProjects$.subscribe(project => {
+      this.myProjects = project;
+    })
+
+    this.laterTaskService.myTasksSubject$.subscribe(task => {
+      this.myTasks = task;
+    })
+  }
 
   createTask = () => {
     const taskText = this.newTask.get('taskText')?.value;
+    const taskProject = this.newTask.get('taskProject')?.value;
     const taskPrio = this.newTask.get('taskPrio')?.value;
 
     if(this.newTask.invalid || !taskText || !taskPrio) return;
@@ -35,12 +52,18 @@ export class CreateTaskComponent {
       Math.floor(Math.random() * 1000) + 1,
       taskText,                             
       false,
-      undefined,                                                              
-      taskPrio                               
+      false,
+      taskPrio,
+      taskProject,                                                  
+      undefined                            
     );
-   
-      this.router.navigate(['']).then(() => { 
-      this.events.emit('addTask', task)              
+
+
+      const allTasks = [...this.myTasks, task]
+      this.laterTaskService.setTasks(allTasks)
+
+
+      this.router.navigate(['']).then(() => {           
       this.newTask.reset()
       })
 

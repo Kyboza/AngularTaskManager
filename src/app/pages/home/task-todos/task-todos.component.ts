@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, Output, EventEmitter} from '@angular/core';
 import { TaskCompletionComponent } from './task-completion/task-completion.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFilterComponent } from './task-filter/task-filter.component';
@@ -9,18 +9,26 @@ import { EventService } from '../../../shared/services/event-service/event.servi
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 import { parseTasks } from '../../../shared/utility/parseTasks';
 import { Tasks } from '../../../shared/models/tasks';
+import { ProjectService } from '../../../shared/services/projectId-service/project.service';
+import { MatIconModule } from '@angular/material/icon';
+import { LaterTaskService } from '../../../shared/services/later-task-service/later-task.service';
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+
 @Component({
   selector: 'app-task-todos',
-  imports: [TaskCompletionComponent, TaskFilterComponent, TaskListComponent, GenericButtonComponent, CommonModule, RouterModule],
+  imports: [TaskCompletionComponent, TaskFilterComponent, TaskListComponent, GenericButtonComponent, CommonModule, RouterModule, MatIconModule],
   templateUrl: './task-todos.component.html',
   styleUrl: './task-todos.component.scss'
 })
 export class TaskTodosComponent implements OnInit, OnDestroy {
+  @Output() select = new EventEmitter<number>();
+
+
+
   public myTasks: Tasks[] = [];
   public isLoading: boolean = true;
   private subscriptions: Subscription[] = [];
@@ -29,7 +37,9 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private events: EventService,
     private tasks: TaskService,
-    private snackBar: SnackbarService
+    private snackBar: SnackbarService,
+    private projectService: ProjectService,
+    private laterTasksService: LaterTaskService
   ) {
     // Remove Task
     this.subscriptions.push(this.events.listen('removeTask', (payload: Tasks) => {
@@ -90,6 +100,7 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
 
             this.myTasks.sort((a, b) => b.priorityValue - a.priorityValue);
             localStorage.setItem('savedTodos', JSON.stringify(this.myTasks));
+            this.laterTasksService.setTasks(this.myTasks)
             this.isLoading = false;
           },
           error: (err: any) =>
@@ -129,10 +140,15 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateDisplayId = (value: null) => {
+    this.projectService.setProjectId(value)
+  }
+
   filter = (task: any) => true;
 
   get filteredTasks(): Tasks[] {
-    return this.myTasks.filter(this.filter);
+    console.log(this.myTasks)
+    return this.myTasks ? this.myTasks.filter(this.filter) : [];
   }
 
   get percentCompleted(): number {

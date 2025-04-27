@@ -3,16 +3,25 @@
       <div class="task__loading_container" *ngIf="isLoading; else showTasks">
         <mat-progress-spinner class="task__loading_icon" mode="indeterminate" diameter="50"></mat-progress-spinner>
       </div>
+
+      <div></div>
     
       <ng-template #showTasks>
+        <!-- Använd ng-container för att kombinera *ngIf och *ngFor -->
+        <ng-container *ngIf="filteredTasksById.length > 0 else showNone">
           <app-task-item 
-          *ngFor="let task of myTasks" 
-          [task]="task"
-          (toggled)="handleToggle($event)"
-          (enableBlur)="handleBlur($event)"
-          (enableEdit)="handleEdit($event[0], $event[1])"
-          >
-        </app-task-item>
+            *ngFor="let task of filteredTasksById" 
+            [task]="task"
+            (toggled)="handleToggle($event)"
+            (enableBlur)="handleBlur($event)"
+            (enableEdit)="handleEdit($event[0], $event[1])">
+          </app-task-item>
+        </ng-container>
+      </ng-template>
+  
+      <!-- No tasks available fallback -->
+      <ng-template #showNone>
+        <p class="task-layout__no-tasks">No Tasks To Display</p>
       </ng-template>
     
     </ul>
