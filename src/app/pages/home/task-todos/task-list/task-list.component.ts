@@ -8,7 +8,7 @@ import { MatLabel } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { noWhitespaceValidator } from '../../../create-task/customValidatorWS';
+import { noWhitespaceValidator } from '../../../../shared/custom-validators/customValidatorWS';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';

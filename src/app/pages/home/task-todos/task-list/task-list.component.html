@@ -7,7 +7,7 @@
     <div></div>
 
     <ng-template #showTasks>
-      <ng-container *ngIf="filteredTasksById.length > 0 else showNone">
+      <ng-container *ngIf="filteredTasksById().length > 0 else showNone">
         <app-task-item 
           *ngFor="let task of filteredTasksById(); let isLast = last" 
           [task]="task"

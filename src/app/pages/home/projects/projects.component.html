@@ -1,22 +1,23 @@
 <div class="task-layout">
-    <h1>Projects</h1>
-  
-    <div class="task-layout__header">
-      <a routerLink="create-project">
-        <app-generic-button text="Add Project" />
-      </a>
-    </div>
-  
-    <div class="task-layout__content">
-        <app-project-list
-        *ngIf="myProjects().length > 0; else noProjects"
-        [myProjects]="myProjects()"
-        [isLoading]="isLoading"
-        />
-        <ng-template #noProjects>
-            <p class="task-layout__no-tasks" *ngIf="!isLoading">No Projects To Display</p>
-        </ng-template>
-    </div>
-  
-    <div class="task-layout__footer"></div>
+  <h1 class="task-layout__title">Projects</h1>
+
+  <div class="task-layout__header">
+    <a routerLink="create-project">
+      <app-generic-button class="task-layout__add-button" text="Add Project" />
+    </a>
   </div>
+
+  <div class="task-layout__content">
+    <app-project-list
+      *ngIf="myProjects().length > 0; else noProjects"
+      [myProjects]="myProjects()"
+      [isLoading]="isLoading"
+      class="task-layout__project-list"
+    />
+    <ng-template #noProjects>
+      <p class="task-layout__no-projects" *ngIf="!isLoading">No Projects To Display</p>
+    </ng-template>
+  </div>
+
+  <div class="task-layout__footer"></div>
+</div>

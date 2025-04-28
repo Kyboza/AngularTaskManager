@@ -1,112 +1,101 @@
 :host {
-    height: 100%;        
-    width: 100%;
-  }
-  
-  .task-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%; 
-    padding: 1rem;
-    border-bottom: 1px solid var(--mat-sys-primary);
-  }
+  height: 100%;        
+  width: 100%;
+}
 
-  .task-item.isLast {
+.project-task {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%; 
+  padding: 1rem;
+  border-bottom: 1px solid var(--mat-sys-primary);
+
+  &--last {
     border-bottom: none;
   }
 
-  .project-item-container{
-    display:flex;
+  &__container {
+    display: flex;
     flex-direction: column;
     width: 20%;
   }
-  
-  .task-text {
+
+  &__title {
     font-size: medium;
     cursor: pointer;
   }
-  
-  .task-actions,
-  .task-priority {
+
+  &__deadline {
+    &--expired {
+      color: red;
+      font-style: italic;
+    }
+  }
+
+  &__actions,
+  &__priority {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 20%;
   }
-  
-  .task-priority {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  &__priority {
     width: 60px;
     height: 25px;
     border: 1px solid gray;
     padding: 0.2rem;
-  }
-  
-  .task-priority p {
-    font-size: small;
+
+    p {
+      font-size: small;
+    }
   }
 
-  .expired{
-    color: red;
-    font-style: italic;
-  }
-  
-  .button-icon {
+  &__icon {
     background-color: var(--mat-sys-on-primary);
     color: var(--mat-sys-primary);
     vertical-align: middle;
   }
-  
-  .task-edit-container input {
-    background-color: var(--mat-sys-on-primary);
-  }
-  
-  
-  // @media screen and (min-width: 376px) and (max-width: 668px) {
-  //   .task-text {
-  //     font-size: x-small
-  //   }
-  
-  //  p{
-  //   font-size: x-small
-  //  }
-  // }
-  
-  @media screen and (max-width: 668px) {
-    .task-text {
-      font-size: x-small
+
+  &__edit-container {
+    input {
+      background-color: var(--mat-sys-on-primary);
     }
-  
-   p{
-    font-size: x-small
-   }
-  
+  }
+
+  /* RESPONSIVE DESIGN */
+  @media screen and (max-width: 668px) {
+    &__title {
+      font-size: x-small;
+    }
+
+    p {
+      font-size: x-small;
+    }
+
     mat-icon {
       font-size: 16px;
     }
-  
-    .button-icon {
+
+    &__icon {
       font-size: 16px;
       padding: 0.25rem;
     }
-  
-    .task-actions button,
-    .task-check mat-checkbox {
+
+    &__actions button,
+    &__check mat-checkbox {
       transform: scale(0.85);
     }
-  
-    .task-check mat-checkbox .mat-checkbox-label {
+
+    &__check mat-checkbox .mat-checkbox-label {
       font-size: 10px;
     }
-  
-    .task-priority p {
+
+    &__priority p {
       font-size: 10px;
     }
   }
-  
-  
+}

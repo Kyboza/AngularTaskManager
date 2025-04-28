@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormGroup, ReactiveFormsModule, FormControl} from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { noWhitespaceValidator } from './customValidatorWS';
+import { noWhitespaceValidator } from '../../shared/custom-validators/customValidatorWS';
 import { Tasks } from '../../shared/models/tasks';
 import { Router } from '@angular/router';
 import { Projects } from '../../shared/models/projects';

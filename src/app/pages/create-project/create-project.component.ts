@@ -7,7 +7,7 @@ import { GenericButtonComponent } from '../../shared/generic-button/generic-butt
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { noWhitespaceValidator } from '../create-task/customValidatorWS';
+import { noWhitespaceValidator } from '../../shared/custom-validators/customValidatorWS';
 import { MatInputModule } from '@angular/material/input';
 import { Projects } from '../../shared/models/projects';
 import { AllProjectsService } from '../../shared/services/projects-service/allProjects.service';

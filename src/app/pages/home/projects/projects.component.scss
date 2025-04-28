@@ -1,49 +1,50 @@
 @use '../../../shared/styles/mixins' as *;
+
 :host {
-   @include host-standard
+  @include host-standard;
 }
 
-  .task-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 90%;
-    padding: 1rem;
-}
+// Block: task-layout
+.task-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 90%;
+  padding: 1rem;
 
-.task-layout__header {
+  &__header {
     width: 100%;
     display: flex;
-    justify-content: start;   /* Centrerar horisontellt */
-    align-items: start;       /* Centrerar vertikalt */
-}
+    justify-content: flex-start; 
+    align-items: flex-start;      
+  }
 
-.task-layout__content {
+  &__content {
     min-height: auto;
     height: 40vh;
-    overflow-y: auto;          
+    overflow-y: auto;
     width: 100%;
     border: 1px solid gray;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
 
-.task-layout__footer {
+  &__footer {
     width: 100%;
     display: flex;
-    justify-content: space-between;   /* Delar upp utrymmet mellan elementen */
-    align-items: center;       /* Vertikal centrering */
-    padding: 1rem;  /* Lägg till lite inre avstånd så att det inte blir för tätt */
-}
+    justify-content: space-between;   
+    align-items: center;             
+    padding: 1rem;
+  }
 
-.task-layout__no-tasks {
+  &__no-projects {
     font-size: large;
+  }
 }
-
 
 @media screen and (max-width: 376px) {
   .task-layout__content {

@@ -1,4 +1,4 @@
-<div *ngIf="selectProjectId !== null; else showProjects">
+<div *ngIf="selectProjectId() !== null; else showProjects">
   <app-task-todos [selectProjectId]="selectProjectId()"></app-task-todos>
 </div>
 

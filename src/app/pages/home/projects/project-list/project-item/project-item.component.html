@@ -1,20 +1,26 @@
-<li class="task-item" [ngClass]="{'isLast': isLast}">
-    <div class="project-item-container">
-      <p class="task-text" (click)="updateDisplayId(project.id)">{{ project.title}}</p>
-      <p [ngClass]="{ 'expired': project.deadline && project.deadline < now }">Deadline: {{ project.deadline && project.deadline >= now ? (project.deadline | date:'yyyy-MM-dd') : 'Expired' }}</p>
+<li class="project-task" [ngClass]="{'project-task--last': isLast}">
+  <div class="project-task__container">
+    <p class="project-task__title" (click)="updateDisplayId(project.id)" aria-label="Visit Project">
+      {{ project.title }}
+    </p>
+    <p class="project-task__deadline" [ngClass]="{ 'project-task__deadline--expired': project.deadline && project.deadline < now }">
+      Deadline: {{ project.deadline && project.deadline >= now ? (project.deadline | date:'yyyy-MM-dd') : 'Expired' }}
+    </p>
+  </div>
 
-    </div>
-    <div class="task-actions">
-      <button mat-icon-button (click)="editProject(project)">
-        <mat-icon class="button-icon">edit</mat-icon>
-      </button>
-    </div>
-    <div class="task-actions">
-      <button mat-icon-button (click)="removeTask(project)">
-        <mat-icon class="button-icon">close</mat-icon>
-      </button>
-    </div>
-    <div class="task-priority">
-      <p>{{ project.priority }}</p>
-    </div>
-  </li>
+  <div class="project-task__actions">
+    <button mat-icon-button (click)="editProject(project)" aria-label="Edit Project">
+      <mat-icon class="project-task__icon">edit</mat-icon>
+    </button>
+  </div>
+
+  <div class="project-task__actions">
+    <button mat-icon-button (click)="removeTask(project)" aria-label="Remove Project">
+      <mat-icon class="project-task__icon">close</mat-icon>
+    </button>
+  </div>
+
+  <div class="project-task__priority">
+    <p>{{ project.priority }}</p>
+  </div>
+</li>
