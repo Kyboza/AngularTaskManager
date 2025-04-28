@@ -1,29 +1,36 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, PLATFORM_ID, Inject, signal } from '@angular/core';
 import { Projects } from '../../models/projects';
 import { parseProjects } from '../../utility/parseProjects';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllProjectsService {
-  private myProjectsSubject = new BehaviorSubject<Projects[]>([]);
-  myProjects$ = this.myProjectsSubject.asObservable();
+  private myProjectsSubject = signal<Projects[]>([])
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.loadProjects();
   }
 
-  // Hämta projekt från localStorage
-  private loadProjects() {
-    const savedProjects = localStorage.getItem('savedProjects');
-    const parsedProjects = savedProjects ? parseProjects(savedProjects) : [];
-    this.myProjectsSubject.next(parsedProjects);
+  public loadProjects() {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedProjects = localStorage.getItem('savedProjects');
+      const parsedProjects = savedProjects ? parseProjects(savedProjects) : [];
+      this.myProjectsSubject.set(parsedProjects);
+    } else {
+      this.myProjectsSubject.set([]);
+    }
   }
 
-  // Uppdatera projekten
+  get myProjects() {
+    return this.myProjectsSubject;
+  }
+  
   setMyProjects(projects: Projects[]) {
-    localStorage.setItem('savedProjects', JSON.stringify(projects));
-    this.myProjectsSubject.next(projects);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('savedProjects', JSON.stringify(projects));
+    }
+    this.myProjectsSubject.set(projects);
   }
 }

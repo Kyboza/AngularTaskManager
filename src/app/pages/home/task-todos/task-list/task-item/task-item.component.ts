@@ -15,6 +15,7 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class TaskItemComponent {
   @Input() task!: Tasks
+  @Input() isLast: boolean = false;
   @Output() toggled = new EventEmitter<Tasks>()
   @Output() enableBlur = new EventEmitter<boolean>()
   @Output() enableEdit = new EventEmitter<[boolean, Tasks]>();

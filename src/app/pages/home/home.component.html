@@ -1,5 +1,5 @@
 <div *ngIf="selectProjectId !== null; else showProjects">
-  <app-task-todos></app-task-todos>
+  <app-task-todos [selectProjectId]="selectProjectId()"></app-task-todos>
 </div>
 
 <ng-template #showProjects>

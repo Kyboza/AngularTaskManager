@@ -29,6 +29,7 @@ export class ProjectListComponent {
    public isBlur: boolean = false;
     public isEdit: boolean = false;
     currentProject: Projects| null = null;
+    isLast: boolean = false;
 
     
   projectEdit: FormGroup = new FormGroup({

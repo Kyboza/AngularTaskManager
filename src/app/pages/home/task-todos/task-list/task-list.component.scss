@@ -1,34 +1,58 @@
-@use '../../../../shared/styles/mixins' as *; 
+@use '../../../../shared/styles/mixins' as *;
 
 :host {
-  @include host-full; 
+  @include host-full;
 }
 
-// Task List Container
-.task__ul_outer_container{
+.task-layout__list-container {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.task__ul_container {
+.task-layout__list {
   display: flex;
   flex-direction: column;
-  height: 100%; 
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
   position: relative;
   transition: filter 0.3s ease-in-out forwards;
+
+  &--blur {
+    filter: blur(10px);
+    pointer-events: none;
+  }
 }
 
-.blur{
-  filter: blur(10px);
-  pointer-events: none;
+.task-layout__loading-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.task-edit-container {
+.task-layout__loading-icon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.task-layout__no-tasks-message {
+  width: 100%;
+  height: 100%;
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-layout__edit-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,21 +70,31 @@
   border: 1px solid var(--mat-sys-primary);
   border-radius: 10px;
   color: var(--mat-sys-primary);
+
+  @media screen and (max-width: 668px) {
+    width: 90%;
+  }
 }
 
-.task-edit__inputs {
+.task-layout__edit-inputs {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
   gap: 1rem;
+
+  mat-form-field {
+    flex-grow: 1;
+  }
 }
 
-mat-form-field {
-  flex-grow: 1;
+.task-layout__button-icon {
+  background-color: var(--mat-sys-on-primary);
+  color: var(--mat-sys-primary);
+  vertical-align: middle;
 }
 
-.task-edit__errors {
+.task-layout__edit-errors {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -68,55 +102,14 @@ mat-form-field {
   width: 100%;
 }
 
-.task-edit__error-text {
+.task-layout__edit-error-text {
   font-size: small;
   color: red;
 }
 
-.button-icon {
-  background-color: var(--mat-sys-on-primary);
-  color: var(--mat-sys-primary);
-  vertical-align: middle;
-}
-
-.task-layout__no-tasks {
-  width: 100%;
-  height: 100%;
-  font-size: large;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.offscreen{
+.task-layout__offscreen {
   position: absolute;
   left: -10000px;
-}
-
-
-// Loading Spinner Container
-.task__loading_container {
-  height: 100%;
-  width: 100%;
-  position: relative; 
-}
-
-// Loading Spinner Icon
-.task__loading_icon {
-  height: 50px; 
-  width: 50px; 
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 999; 
-}
-
-@media screen and (max-width: 668px) {
-  .task-edit-container{
-    width: 90%;
-  }
 }
 
   

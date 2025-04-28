@@ -2,8 +2,8 @@ export class Projects {
     constructor(
         public id: number, 
         public title: string, 
-        public deadline: Date = new Date(),
-        public priority: string = 'Low'
+        public deadline: Date = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        public priority: string = 'Low',
     ){}
 
     get priorityValue(): number {

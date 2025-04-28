@@ -1,7 +1,8 @@
-<li class="task-item">
+<li class="task-item" [ngClass]="{'isLast': isLast}">
     <div class="project-item-container">
       <p class="task-text" (click)="updateDisplayId(project.id)">{{ project.title}}</p>
-      <p>Deadline: {{project.deadline.toISOString().slice(0, 10)}}</p>
+      <p [ngClass]="{ 'expired': project.deadline && project.deadline < now }">Deadline: {{ project.deadline && project.deadline >= now ? (project.deadline | date:'yyyy-MM-dd') : 'Expired' }}</p>
+
     </div>
     <div class="task-actions">
       <button mat-icon-button (click)="editProject(project)">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { GenericButtonComponent } from '../../shared/generic-button/generic-button.component';
 import { MatFormField } from '@angular/material/select';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,11 +19,14 @@ import { LaterTaskService } from '../../shared/services/later-task-service/later
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.scss'
 })
-export class CreateTaskComponent implements OnInit {
-  constructor(private allProjectsService: AllProjectsService, private laterTaskService: LaterTaskService, private router: Router){}
+export class CreateTaskComponent {
+  constructor(private allProjectsService: AllProjectsService, private laterTaskService: LaterTaskService, private router: Router){
+    this.myTasks = this.laterTaskService.myTasks
+    this.myProjects = this.allProjectsService.myProjects
+  }
 
-  myProjects: Projects[] = []
-  myTasks: Tasks[] = []
+  myProjects!: Signal<Projects[]>
+  myTasks!: Signal<Tasks[]>
 
   newTask: FormGroup = new FormGroup({
     taskText: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(25), noWhitespaceValidator]),
@@ -31,15 +34,6 @@ export class CreateTaskComponent implements OnInit {
     taskProject: new FormControl("", [Validators.required])
   })
 
-  ngOnInit(): void {
-    this.allProjectsService.myProjects$.subscribe(project => {
-      this.myProjects = project;
-    })
-
-    this.laterTaskService.myTasksSubject$.subscribe(task => {
-      this.myTasks = task;
-    })
-  }
 
   createTask = () => {
     const taskText = this.newTask.get('taskText')?.value;
@@ -59,7 +53,7 @@ export class CreateTaskComponent implements OnInit {
     );
 
 
-      const allTasks = [...this.myTasks, task]
+      const allTasks = [...(this.laterTaskService.myTasks()), task]
       this.laterTaskService.setTasks(allTasks)
 
 

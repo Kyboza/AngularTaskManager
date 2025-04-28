@@ -1,23 +1,31 @@
-<li class="task-item">
-    <p class="task-text">{{ task.todo}}</p>
-    <div class="task-actions">
-      <button mat-icon-button (click)="editTask(task)">
-        <mat-icon class="button-icon">edit</mat-icon>
-      </button>
-    </div>
-    <div class="task-actions">
-      <button mat-icon-button (click)="removeTask(task)">
-        <mat-icon class="button-icon">close</mat-icon>
-      </button>
-    </div>
-    <div class="task-check">
-      <mat-checkbox (change)="toggleStarted()" [checked]="task.started"><p>Started</p></mat-checkbox>
-    </div>
-    <div class="task-check">
-      <mat-checkbox (change)="toggleCompleted()" [checked]="task.completed"><p>Done</p></mat-checkbox>
-    </div>
-    <div class="task-priority">
-      <p>{{ task.priority }}</p>
-    </div>
-  </li>
-  
+<li class="task-item" [ngClass]="{'task-item--last': isLast}">
+  <p class="task-item__text">{{ task.todo }}</p>
+
+  <div class="task-item__actions">
+    <button aria-label="Edit Task" mat-icon-button (click)="editTask(task)">
+      <mat-icon class="task-item__icon">edit</mat-icon>
+    </button>
+  </div>
+
+  <div class="task-item__actions">
+    <button aria-label="Remove Task" mat-icon-button (click)="removeTask(task)">
+      <mat-icon class="task-item__icon">close</mat-icon>
+    </button>
+  </div>
+
+  <div class="task-item__check">
+    <mat-checkbox aria-label="Toggle Started" (change)="toggleStarted()" [checked]="task.started">
+      <p>Started</p>
+    </mat-checkbox>
+  </div>
+
+  <div class="task-item__check">
+    <mat-checkbox aria-label="Toggle Completed"(change)="toggleCompleted()" [checked]="task.completed">
+      <p>Done</p>
+    </mat-checkbox>
+  </div>
+
+  <div class="task-item__priority">
+    <p>{{ task.priority }}</p>
+  </div>
+</li>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { MatLabel } from '@angular/material/select';
 import { MatFormField } from '@angular/material/select';
 import { MatSelect } from '@angular/material/select';
@@ -21,9 +21,11 @@ import { SnackbarService } from '../../shared/services/snackbar/snackbar.service
   styleUrl: './create-project.component.scss'
 })
 export class CreateProjectComponent implements OnInit {
-  myProjects: Projects[] = []
+  myProjects!: Signal<Projects[]>
 
-  constructor(private snackBar: SnackbarService, private allProjectsService: AllProjectsService, private router: Router){}
+  constructor(private snackBar: SnackbarService, private allProjectsService: AllProjectsService, private router: Router){ 
+    this.myProjects = this.allProjectsService.myProjects
+  }
 
   newProject: FormGroup = new FormGroup({
     projectText: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(30), noWhitespaceValidator]),
@@ -31,9 +33,7 @@ export class CreateProjectComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.allProjectsService.myProjects$.subscribe(projects => {
-      this.myProjects = projects
-    })
+   
   }
 
 
@@ -46,13 +46,14 @@ export class CreateProjectComponent implements OnInit {
     console.log(projectPrio)
 
     const project = new Projects(
-      this.myProjects[this.myProjects.length -1]?.id + 1 || 1,
+      // this.myProjects[this.myProjects.length -1]?.id + 1 || 1,
+      (this.allProjectsService.myProjects()[this.allProjectsService.myProjects().length - 1]?.id ?? 0) + 1,
       projectText,
-      new Date(),
+      undefined,
       projectPrio
     )
 
-    const allProjects = [...this.myProjects, project]
+    const allProjects = [...(this.allProjectsService.myProjects()), project]
     console.log(allProjects)
     this.allProjectsService.setMyProjects(allProjects)
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { Tasks } from '../../../../shared/models/tasks';
 import { CommonModule } from '@angular/common';
 import { TaskItemComponent } from './task-item/task-item.component';
@@ -14,7 +14,6 @@ import { MatFormField } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { EventService } from '../../../../shared/services/event-service/event.service';
 import { ProjectService } from '../../../../shared/services/projectId-service/project.service';
-import { Subscription } from 'rxjs'; // För subscription-hantering
 
 @Component({
   selector: 'app-task-list',
@@ -31,17 +30,17 @@ import { Subscription } from 'rxjs'; // För subscription-hantering
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent implements OnInit, OnDestroy {
+export class TaskListComponent {
   @Input() myTasks: Tasks[] = [];
   @Input() isLoading: boolean = true;
   @Output() toggled = new EventEmitter<Tasks>();
 
-  private projectSubscription!: Subscription; // För subscriptionen
 
   public isBlur: boolean = false;
   public isEdit: boolean = false;
   currentTask: Tasks | null = null;
-  selectProjectId: number | null = null;
+  selectProjectId: Signal<number | null>
+  isLast: boolean = false;
 
   taskEdit: FormGroup = new FormGroup({
     taskText: new FormControl('', [
@@ -52,26 +51,14 @@ export class TaskListComponent implements OnInit, OnDestroy {
     ])
   });
 
-  constructor(private events: EventService, private projectService: ProjectService) {}
-
-  ngOnInit(): void {
-    // Prenumerera på projekt-id från ProjectService
-    this.projectSubscription = this.projectService.projectId$.subscribe(id => {
-      this.selectProjectId = id;
-    });
-  }
-
-  ngOnDestroy(): void {
-    // Avprenumerera från ProjectService när komponenten tas bort
-    if (this.projectSubscription) {
-      this.projectSubscription.unsubscribe();
-    }
+  constructor(private events: EventService, private projectService: ProjectService) {
+    this.selectProjectId = this.projectService.idSubject
   }
 
   // Filtrera tasks baserat på selectedProjectId
-  get filteredTasksById(): Tasks[] {
-    return this.myTasks.filter(task => task.projectId === this.selectProjectId);
-  }
+  public filteredTasksById = computed(() => 
+    this.myTasks.filter(task => task.projectId === this.selectProjectId())
+  );
 
   handleEdit(value: boolean, task?: Tasks) {
     this.isEdit = value;

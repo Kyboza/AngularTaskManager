@@ -9,8 +9,8 @@
   
     <div class="task-layout__content">
         <app-project-list
-        *ngIf="myProjects.length > 0; else noProjects"
-        [myProjects]="myProjects"
+        *ngIf="myProjects().length > 0; else noProjects"
+        [myProjects]="myProjects()"
         [isLoading]="isLoading"
         />
         <ng-template #noProjects>

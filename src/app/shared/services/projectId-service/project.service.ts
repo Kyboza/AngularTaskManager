@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectIdSubject = new BehaviorSubject<number | null>(null)
-  projectId$ = this.projectIdSubject.asObservable()
+  private projectIdSubject = signal<number | null>(null)
   constructor() { }
 
+  get idSubject () {
+    return this.projectIdSubject
+  }
+
   setProjectId = (id: number | null) => {
-    this.projectIdSubject.next(id)
+    this.projectIdSubject.set(id)
   }
 }

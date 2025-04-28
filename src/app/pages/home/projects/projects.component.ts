@@ -10,6 +10,7 @@ import { SnackbarService } from '../../../shared/services/snackbar/snackbar.serv
 import { parseProjects } from '../../../shared/utility/parseProjects';
 import { Subscription } from 'rxjs';
 import { AllProjectsService } from '../../../shared/services/projects-service/allProjects.service';
+import { Signal } from '@angular/core';
 
 
 @Component({
@@ -19,10 +20,12 @@ import { AllProjectsService } from '../../../shared/services/projects-service/al
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
-  myProjects: Projects[] = [];
+  myProjects!: Signal<Projects[]>
 
   public isLoading: boolean = false;
   private subscriptions: Subscription[] = [];
+
+  
 
 
   constructor(
@@ -31,6 +34,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     private snackBar: SnackbarService,
     private allProjectsService: AllProjectsService
   ) {
+
+    this.myProjects = this.allProjectsService.myProjects
+
     // Remove Task
     this.subscriptions.push(this.events.listen('removeProject', (payload: Projects) => {
       const savedProjects = localStorage.getItem('savedProjects');
@@ -40,7 +46,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       if (index > -1) {
         projects.splice(index, 1);
         localStorage.setItem('savedProjects', JSON.stringify(projects));
-        this.myProjects.splice(index, 1);
+        this.allProjectsService.setMyProjects(projects)
         this.snackBar.show('Removed Project', 'success');
       }
     }));
@@ -54,42 +60,34 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         project.id === payload.id ? payload : project
       );
 
-      this.myProjects = updatedProjects;
+      this.allProjectsService.setMyProjects(updatedProjects)
       localStorage.setItem('savedProjects', JSON.stringify(updatedProjects));
       this.snackBar.show('Updated Project', 'success');
     }));
-
-
-    this.subscriptions.push(this.allProjectsService.myProjects$.subscribe((allProjects) => {
-      this.myProjects = allProjects;
-    }));
   }
+
 
   ngOnInit(): void {
     // Hämta initiala projekt när appen startar
     if (isPlatformBrowser(this.platformId)) {
       const savedProjects = localStorage.getItem('savedProjects');
       const parsedProjects = savedProjects ? parseProjects(savedProjects) : [];
-      console.log('Parsed projects from localStorage:', parsedProjects);
   
       // Sätt myProjects till de hämtade projekten eller en tom array om inget finns
       if (parsedProjects.length > 0) {
-        this.myProjects = parsedProjects.sort((a, b) => b.priorityValue - a.priorityValue);
+        this.allProjectsService.setMyProjects(parsedProjects.sort((a, b) => b.priorityValue - a.priorityValue))
       } else {
-        this.myProjects = []; // Om inget finns i localStorage, sätt till en tom array
+        this.allProjectsService.setMyProjects([])
         localStorage.setItem('savedProjects', JSON.stringify(this.myProjects));
       }
   
       // Skicka initialiserade projekt till BehaviorSubject
-      this.allProjectsService.setMyProjects(this.myProjects);
-  
       this.isLoading = false;
+      window.addEventListener('storage', this.handleStorageChange);
     } else {
-      this.myProjects = [];
+      this.allProjectsService.setMyProjects([]);
     }
   
-    // Lyssna på lagringshändelser om data ändras i localStorage
-    window.addEventListener('storage', this.handleStorageChange);
   }
   
 
@@ -97,7 +95,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   handleStorageChange = (event: StorageEvent) => {
     if (event.key === 'savedProjects') {
-      this.myProjects = parseProjects(event.newValue);
+      this.allProjectsService.setMyProjects(parseProjects(event.newValue))
     }
   };
 
@@ -108,16 +106,4 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       window.removeEventListener('storage', this.handleStorageChange);
     }
   }
-
-  // filter = (task: any) => true;
-
-  // get filteredTasks(): Projects[] {
-  //   return this.myProjects.filter(this.filter);
-  // }
-
-  // get percentCompleted(): number {
-  //   if (!this.myProjects || this.myProjects.length === 0) return 0;
-  //   const completedCount = this.myProjects.filter(task => task.completed).length;
-  //   return Math.round((completedCount / this.myProjects.length) * 100);
-  // }
 }

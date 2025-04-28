@@ -16,10 +16,12 @@ import { ProjectService } from '../../../../../shared/services/projectId-service
 })
 export class ProjectItemComponent {
   @Input() project!: Projects
+  @Input()  isLast: boolean = true;
   @Output() toggled = new EventEmitter<Projects>()
   @Output() enableBlur = new EventEmitter<boolean>()
   @Output() enableEdit = new EventEmitter<[boolean, Projects]>();
 
+  public now = new Date()
   public noEdit: boolean = false
 
   constructor(public events: EventService, public projectService: ProjectService){}

@@ -6,11 +6,12 @@
       
         <ng-template #showProjects>
           <app-project-item
-          *ngFor="let project of myProjects" 
+          *ngFor="let project of myProjects; let isLast = last" 
           [project]="project"
           (toggled)="handleToggle($event)"
           (enableBlur)="handleBlur($event)"
           (enableEdit)="handleEdit($event[0], $event[1])"
+          [isLast]="isLast"
           />
         </ng-template>
       

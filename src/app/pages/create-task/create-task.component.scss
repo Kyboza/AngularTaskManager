@@ -10,16 +10,15 @@
   
   .task-create {
     &__form {
-     height: auto; /* Anpassas efter innehållet */
-      width: 50%; /* Tar upp all tillgänglig bredd från sin parent */
+     height: auto;
+      width: 50%; 
       border: 1px solid gray;
       border-radius: 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 1rem; /* Valfritt: lägger inre marginal */
-      box-sizing: border-box; /* Viktigt så padding inte ökar bredden */
+      padding: 1rem; 
     }
   
     &__title {

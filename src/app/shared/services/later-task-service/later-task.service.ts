@@ -1,27 +1,32 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal, PLATFORM_ID, Inject } from '@angular/core';
 import { Tasks } from '../../models/tasks';
 import { parseTasks } from '../../utility/parseTasks';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LaterTaskService {
-  private myTaskSubject = new BehaviorSubject<Tasks[]>([])
-  myTasksSubject$ = this.myTaskSubject.asObservable();
+  private myTaskSubject = signal<Tasks[]>([])
   
-  constructor() {
-    this.loadTasks()
+  constructor(@Inject(PLATFORM_ID)private platformId: Object) {
+    if(isPlatformBrowser(this.platformId)){
+      this.loadTasks()
+    }
    }
   
    private loadTasks = () => {
     const savedTodos = localStorage.getItem('savedTodos');
     const parsedTasks = savedTodos ? parseTasks(savedTodos) : [];
-    this.myTaskSubject.next(parsedTasks);
+    this.myTaskSubject.set(parsedTasks);
+   }
+
+   get myTasks() {
+    return this.myTaskSubject
    }
 
   setTasks = (tasks: Tasks[]) => {
     localStorage.setItem('savedTodos', JSON.stringify(tasks))
-    this.myTaskSubject.next(tasks)
+    this.myTaskSubject.set(tasks)
   }
 }

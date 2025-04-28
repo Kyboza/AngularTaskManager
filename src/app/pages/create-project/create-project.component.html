@@ -1,32 +1,33 @@
-<h1 class="task-create__title">Create New Project</h1>
-<form class="task-create__form" [formGroup]="newProject" (ngSubmit)="createProject()">
 
-  <!-- Task Text Input -->
-  <mat-form-field class="task-create__form-field" appearance="outline">
+<h1 class="project-create__title">Create New Project</h1>
+<form class="project-create__form" [formGroup]="newProject" (ngSubmit)="createProject()">
+
+  <!-- Project Text Input -->
+  <mat-form-field class="project-create__form-field" appearance="outline">
     <mat-label>Enter Project</mat-label>
-    <input formControlName="projectText" matInput type="text" placeholder="Enter Project"/>
+    <input formControlName="projectText" matInput type="text" aria-describedby="projectTextError"  aria-required="true"/>
   </mat-form-field>
 
-  <div class="task-create__error-text" *ngIf="projectTextErrors.length">
+  <div id="projectTextError" class="project-create__error-text" *ngIf="projectTextErrors.length">
     {{projectTextErrors.join(', ')}}
   </div>
 
-  <!-- Task Priority Select -->
-  <mat-form-field class="task-create__form-field" appearance="outline">
+  <!-- Project Priority Select -->
+  <mat-form-field class="project-create__form-field" appearance="outline">
     <mat-label>Select Priority</mat-label>
-    <mat-select formControlName="projectPrio">
+    <mat-select formControlName="projectPrio" aria-describedby="selectErrorProject" aria-required="true">
       <mat-option value="Low">Low</mat-option>
       <mat-option value="Medium">Medium</mat-option>
       <mat-option value="High">High</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <div class="task-create__error-text" *ngIf="newProject.get('projectPrio')?.touched && newProject.get('projectPrio')?.errors?.['required']">
+  <div class="project-create__error-text" id="selectErrorProjects" *ngIf="newProject.get('projectPrio')?.touched && newProject.get('projectPrio')?.errors?.['required']">
     <span>This is Required</span>
   </div>
 
   <!-- Submit Button -->
-  <div class="task-create__button-container">
+  <div class="project-create__button-container">
     <app-generic-button 
       type="submit" 
       text="Create Project" 
@@ -34,4 +35,3 @@
     </app-generic-button>
   </div>
 </form>
-
