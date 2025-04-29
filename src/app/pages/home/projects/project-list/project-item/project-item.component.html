@@ -1,8 +1,8 @@
 <li class="project-task" [ngClass]="{'project-task--last': isLast}">
   <div class="project-task__container">
-    <p class="project-task__title" (click)="updateDisplayId(project.id)" aria-label="Visit Project">
+    <button class="project-task__title-button" (click)="updateDisplayId(project.id)" aria-label="Visit Project">
       {{ project.title }}
-    </p>
+    </button>
     <p class="project-task__deadline" [ngClass]="{ 'project-task__deadline--expired': project.deadline && project.deadline < now }">
       Deadline: {{ project.deadline && project.deadline >= now ? (project.deadline | date:'yyyy-MM-dd') : 'Expired' }}
     </p>

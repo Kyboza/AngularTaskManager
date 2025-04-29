@@ -23,9 +23,14 @@
     width: 20%;
   }
 
-  &__title {
+  &__title-button {
     font-size: medium;
     cursor: pointer;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    text-align: left;
   }
 
   &__deadline {

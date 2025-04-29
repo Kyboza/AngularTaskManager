@@ -9,6 +9,6 @@ import { Input,  } from '@angular/core';
   styleUrl: './task-completion.component.scss'
 })
 export class TaskCompletionComponent  {
-  @Input() percentCompleted: number = 0;
+  @Input() public percentCompleted: number = 0;
 
 }

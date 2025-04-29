@@ -1,19 +1,20 @@
 import { Injectable, PLATFORM_ID, Inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 import { Projects } from '../../models/projects';
 import { parseProjects } from '../../utility/parseProjects';
-import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllProjectsService {
-  private myProjectsSubject = signal<Projects[]>([])
+  private myProjectsSubject = signal<Projects[]>([]);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.loadProjects();
   }
 
-  public loadProjects() {
+  public loadProjects(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedProjects = localStorage.getItem('savedProjects');
       const parsedProjects = savedProjects ? parseProjects(savedProjects) : [];
@@ -23,14 +24,15 @@ export class AllProjectsService {
     }
   }
 
-  get myProjects() {
+  public get myProjects() {
     return this.myProjectsSubject;
   }
   
-  setMyProjects(projects: Projects[]) {
+  public setMyProjects(projects: Projects[]): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('savedProjects', JSON.stringify(projects));
     }
     this.myProjectsSubject.set(projects);
   }
 }
+

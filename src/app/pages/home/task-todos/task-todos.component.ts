@@ -1,23 +1,33 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, Input, Signal, computed, signal, WritableSignal} from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  Input,
+  Signal
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
+
 import { TaskCompletionComponent } from './task-completion/task-completion.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFilterComponent } from './task-filter/task-filter.component';
 import { GenericButtonComponent } from '../../../shared/generic-button/generic-button.component';
+
 import { TaskService } from '../../../shared/services/task-service/task.service';
 import { EventService } from '../../../shared/services/event-service/event.service';
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 import { parseTasks } from '../../../shared/utility/parseTasks';
 import { Tasks } from '../../../shared/models/tasks';
 import { ProjectService } from '../../../shared/services/projectId-service/project.service';
-import { MatIconModule } from '@angular/material/icon';
 import { LaterTaskService } from '../../../shared/services/later-task-service/later-task.service';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-task-todos',
+  standalone: true,
   imports: [
     TaskCompletionComponent,
     TaskFilterComponent,
@@ -31,8 +41,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './task-todos.component.scss'
 })
 export class TaskTodosComponent implements OnInit, OnDestroy {
-  @Input() selectProjectId: number | null = null;
-
+  @Input() public selectProjectId: number | null = null;
+  public filter: Signal<(task: Tasks) => boolean>;
   public myTasks!: Signal<Tasks[]>;
   public isLoading: boolean = true;
   private subscriptions: Subscription[] = [];
@@ -46,21 +56,20 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     private laterTasksService: LaterTaskService
   ) {
     this.myTasks = this.laterTasksService.myTasks;
+    this.filter = this.laterTasksService.filter;
 
-    // Remove Task
     this.subscriptions.push(this.events.listen('removeTask', (payload: Tasks) => {
       const savedTodos = localStorage.getItem('savedTodos');
-      const todos = parseTasks(savedTodos)
+      const todos = parseTasks(savedTodos);
       const index = todos.findIndex(task => task.todo === payload.todo);
-      if(index > -1){
-        todos.splice(index, 1)
+      if (index > -1) {
+        todos.splice(index, 1);
         localStorage.setItem('savedTodos', JSON.stringify(todos));
         this.laterTasksService.setTasks(todos);
         this.snackBar.show('Removed Task', 'success');
       }
     }));
 
-    // Add Task
     this.subscriptions.push(this.events.listen('addTask', (payload: Tasks) => {
       const todos = this.myTasks();
       const updatedTodos = [...todos, payload];
@@ -69,7 +78,6 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
       this.snackBar.show('Added Task', 'success');
     }));
 
-    // Update Task
     this.subscriptions.push(this.events.listen('updateTask', (payload: Tasks) => {
       const todos = this.myTasks();
       const updatedTodos = todos.map(task =>
@@ -81,13 +89,13 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     }));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedTodos = localStorage.getItem('savedTodos');
       const restoredTasks = savedTodos ? parseTasks(savedTodos) : [];
 
       if (restoredTasks.length > 0) {
-        this.laterTasksService.setTasks( restoredTasks.sort((a, b) => b.priorityValue - a.priorityValue));
+        this.laterTasksService.setTasks(restoredTasks.sort((a, b) => b.priorityValue - a.priorityValue));
         this.isLoading = false;
       } else {
         this.tasksService.getTasks().subscribe({
@@ -110,14 +118,7 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleStorageChange = (event: StorageEvent) => {
-    if (event.key === 'savedTodos') {
-      const parsedTasks = parseTasks(event.newValue);
-      this.laterTasksService.setTasks(parsedTasks);
-    }
-  };
-
-  onToggleTask(task: Tasks): void {
+  public onToggleTask(task: Tasks): void {
     const todos = this.myTasks();
     const updatedTodos = todos.map(t => {
       if (t.id === task.id) {
@@ -137,28 +138,29 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     this.laterTasksService.setTasks(updatedTodos);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (typeof window !== 'undefined') {
       window.removeEventListener('storage', this.handleStorageChange);
     }
   }
 
-  updateDisplayId = (value: null) => {
+  private handleStorageChange = (event: StorageEvent): void => {
+    if (event.key === 'savedTodos') {
+      const parsedTasks = parseTasks(event.newValue);
+      this.laterTasksService.setTasks(parsedTasks);
+    }
+  };
+
+  public updateDisplayId(value: null): void {
     this.projectService.setProjectId(value);
   }
 
-  public filter: WritableSignal<(task: Tasks) => boolean> = signal((task: Tasks) => true);
-
-  filteredTasks = computed(() => {
-    return this.myTasks().filter(this.filter()) || [];
-  });
-
-  updateFilter(newFilter: (task: Tasks) => boolean) {
-    this.filter.set(newFilter);
+  public updateFilter(newFilter: (task: Tasks) => boolean): void {
+    this.laterTasksService.updateFilter(newFilter);
   }
 
-  get percentCompleted(): number {
+  public get percentCompleted(): number {
     const tasks = this.myTasks();
     if (!tasks || tasks.length === 0) return 0;
     const relevantTasks = tasks.filter(task => task.projectId === this.selectProjectId);

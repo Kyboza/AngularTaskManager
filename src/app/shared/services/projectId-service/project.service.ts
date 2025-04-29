@@ -4,14 +4,15 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectIdSubject = signal<number | null>(null)
-  constructor() { }
+  private projectIdSubject = signal<number | null>(null);
 
-  get idSubject () {
-    return this.projectIdSubject
+  constructor() {}
+
+  public get idSubject() {
+    return this.projectIdSubject;
   }
 
-  setProjectId = (id: number | null) => {
-    this.projectIdSubject.set(id)
+  public setProjectId(id: number | null): void {
+    this.projectIdSubject.set(id);
   }
 }

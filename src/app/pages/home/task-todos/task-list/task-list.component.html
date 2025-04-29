@@ -1,49 +1,92 @@
 <div class="task-layout__list-container">
-  <ul class="task-layout__list" [ngClass]="{'task-layout__list--blur': isBlur}">
-    <div class="task-layout__loading-container" *ngIf="isLoading; else showTasks">
-      <mat-progress-spinner class="task-layout__loading-icon" mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <div
+    class="task-layout__list"
+    [ngClass]="{'task-layout__list--blur': isBlur}"
+    [attr.aria-busy]="isLoading ? 'true' : null"
+  >
+    <div
+      class="task-layout__loading-container"
+      *ngIf="isLoading; else showTasks"
+      role="status"
+      aria-live="polite"
+    >
+      <mat-progress-spinner
+        class="task-layout__loading-icon"
+        mode="indeterminate"
+        diameter="50"
+        aria-label="Loading tasks"
+      ></mat-progress-spinner>
     </div>
 
     <div></div>
 
     <ng-template #showTasks>
-      <ng-container *ngIf="filteredTasksById().length > 0 else showNone">
-        <app-task-item 
-          *ngFor="let task of filteredTasksById(); let isLast = last" 
-          [task]="task"
-          (toggled)="handleToggle($event)"
-          (enableBlur)="handleBlur($event)"
-          (enableEdit)="handleEdit($event[0], $event[1])"
-          [isLast]="isLast">
-        </app-task-item>
+      <ng-container *ngIf="filteredTasksById().length > 0; else showNone">
+        <ul class="task-layout__ul">
+          <app-task-item
+            *ngFor="let task of filteredTasksById(); let isLast = last"
+            [task]="task"
+            (toggled)="handleToggle($event)"
+            (enableBlur)="handleBlur($event)"
+            (enableEdit)="handleEdit($event[0], $event[1])"
+            [isLast]="isLast"
+          ></app-task-item>
+        </ul>
       </ng-container>
     </ng-template>
 
     <ng-template #showNone>
-      <p class="task-layout__no-tasks-message">No Tasks To Display</p>
+      <p
+        class="task-layout__no-tasks-message"
+        role="status"
+        aria-live="polite"
+      >
+        No Tasks To Display
+      </p>
     </ng-template>
+  </div>
 
-  </ul>
-
-  <form *ngIf="isEdit" [formGroup]="taskEdit" (ngSubmit)="submitEdit()" class="task-layout__edit-container">
+  <form
+    *ngIf="isEdit"
+    [formGroup]="taskEdit"
+    (ngSubmit)="submitEdit()"
+    class="task-layout__edit-container"
+    aria-labelledby="editTaskHeading"
+  >
+    <h2 id="editTaskHeading" class="task-layout__offscreen">Edit Task</h2>
 
     <div class="task-layout__edit-inputs">
       <mat-label class="task-layout__offscreen">Enter Task</mat-label>
       <mat-form-field appearance="outline">
-        <input aria-describedby="selectTaskUpdate" formControlName="taskText" matInput type="text" placeholder="Enter Task" />
+        <input
+          formControlName="taskText"
+          matInput
+          type="text"
+          placeholder="Enter Task"
+          aria-describedby="selectTaskUpdate"
+          [attr.aria-invalid]="taskEdit.get('taskText')?.invalid ? 'true' : null"
+        />
       </mat-form-field>
 
       <button mat-icon-button type="submit">
-        <mat-icon aria-label="Update Task Submit" class="task-layout__button-icon">check</mat-icon>
+        <mat-icon
+          aria-label="Update Task Submit"
+          class="task-layout__button-icon"
+        >
+          check
+        </mat-icon>
       </button>
     </div>
 
-    <div id="selectTaskUpdate" class="task-layout__edit-errors" *ngIf="taskEdit.get('taskText')?.touched && taskTextErrors.length">
+    <div
+      id="selectTaskUpdate"
+      class="task-layout__edit-errors"
+      *ngIf="taskEdit.get('taskText')?.touched && taskTextErrors.length"
+      aria-live="assertive"
+    >
       <div class="task-layout__edit-error-text">
-        {{ taskTextErrors.join(', ')}}
+        {{ taskTextErrors.join(', ') }}
       </div>
     </div>
-
   </form>
-
 </div>

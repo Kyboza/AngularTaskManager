@@ -4,113 +4,119 @@
   @include host-full;
 }
 
-.task-layout__list-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+.task-layout {
+  &__list-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-.task-layout__list {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  position: relative;
-  transition: filter 0.3s ease-in-out forwards;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transition: filter 0.3s ease-in-out forwards;
 
-  &--blur {
-    filter: blur(10px);
-    pointer-events: none;
+    &--blur {
+      filter: blur(10px);
+      pointer-events: none;
+    }
+  }
+
+  &__loading-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__loading-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+  }
+
+  &__no-tasks-message {
+    width: 100%;
+    height: 100%;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__edit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9909;
+    width: 50%;
+    padding: 1rem;
+    background-color: var(--mat-sys-on-primary);
+    border: 1px solid var(--mat-sys-primary);
+    border-radius: 10px;
+    color: var(--mat-sys-primary);
+
+    @media screen and (max-width: 668px) {
+      width: 90%;
+    }
+
+    &__edit-inputs {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      gap: 1rem;
+
+      mat-form-field {
+        flex-grow: 1;
+      }
+
+      .task-layout__button-icon {
+        background-color: var(--mat-sys-on-primary);
+        color: var(--mat-sys-primary);
+        vertical-align: middle;
+      }
+    }
+
+    &__edit-errors {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 0.5rem;
+      width: 100%;
+
+      .task-layout__edit-error-text {
+        font-size: small;
+        color: red;
+      }
+    }
+  }
+
+  &__offscreen {
+    position: absolute;
+    left: -10000px;
   }
 }
-
-.task-layout__loading-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.task-layout__loading-icon {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-}
-
-.task-layout__no-tasks-message {
-  width: 100%;
-  height: 100%;
-  font-size: large;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.task-layout__edit-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9909;
-
-  width: 50%;
-  padding: 1rem;
-  background-color: var(--mat-sys-on-primary);
-  border: 1px solid var(--mat-sys-primary);
-  border-radius: 10px;
-  color: var(--mat-sys-primary);
-
-  @media screen and (max-width: 668px) {
-    width: 90%;
-  }
-}
-
-.task-layout__edit-inputs {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  gap: 1rem;
-
-  mat-form-field {
-    flex-grow: 1;
-  }
-}
-
-.task-layout__button-icon {
-  background-color: var(--mat-sys-on-primary);
-  color: var(--mat-sys-primary);
-  vertical-align: middle;
-}
-
-.task-layout__edit-errors {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-.task-layout__edit-error-text {
-  font-size: small;
-  color: red;
-}
-
-.task-layout__offscreen {
-  position: absolute;
-  left: -10000px;
-}
-
-  
-  

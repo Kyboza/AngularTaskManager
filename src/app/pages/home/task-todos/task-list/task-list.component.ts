@@ -1,18 +1,16 @@
-import { Component, Signal, signal, computed } from '@angular/core';
-import { Tasks } from '../../../../shared/models/tasks';
+import { Component, Signal, computed, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TaskItemComponent } from './task-item/task-item.component';
-import { Input, Output, EventEmitter } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatLabel } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { noWhitespaceValidator } from '../../../../shared/custom-validators/customValidatorWS';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormField } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+
+import { Tasks } from '../../../../shared/models/tasks';
+import { TaskItemComponent } from './task-item/task-item.component';
+import { noWhitespaceValidator } from '../../../../shared/custom-validators/customValidatorWS';
 import { EventService } from '../../../../shared/services/event-service/event.service';
 import { ProjectService } from '../../../../shared/services/projectId-service/project.service';
+import { LaterTaskService } from '../../../../shared/services/later-task-service/later-task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -21,9 +19,7 @@ import { ProjectService } from '../../../../shared/services/projectId-service/pr
     CommonModule,
     TaskItemComponent,
     MatProgressSpinnerModule,
-    MatLabel,
     ReactiveFormsModule,
-    MatFormField,
     MatIconModule,
     MatInputModule
   ],
@@ -31,24 +27,16 @@ import { ProjectService } from '../../../../shared/services/projectId-service/pr
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent {
-  private _myTasks = signal<Tasks[]>([]);
-  @Input() set myTasks(value: Tasks[]) {
-    this._myTasks.set(value);
-  }
-  get myTasks(): Tasks[] {
-    return this._myTasks();
-  }
-
-  @Input() isLoading: boolean = true;
-  @Output() toggled = new EventEmitter<Tasks>();
+  @Input() public isLoading: boolean = true;
+  @Output() public toggled = new EventEmitter<Tasks>();
 
   public isBlur: boolean = false;
   public isEdit: boolean = false;
-  currentTask: Tasks | null = null;
-  selectProjectId: Signal<number | null>;
-  isLast: boolean = false;
+  public currentTask: Tasks | null = null;
+  public isLast: boolean = false;
+  public selectProjectId: Signal<number | null>;
 
-  taskEdit: FormGroup = new FormGroup({
+  public taskEdit: FormGroup = new FormGroup({
     taskText: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
@@ -57,15 +45,21 @@ export class TaskListComponent {
     ])
   });
 
-  constructor(private events: EventService, private projectService: ProjectService) {
+  public constructor(
+    private events: EventService,
+    private projectService: ProjectService,
+    private laterTaskService: LaterTaskService
+  ) {
     this.selectProjectId = this.projectService.idSubject;
   }
 
   public filteredTasksById = computed(() =>
-    this._myTasks().filter(task => task.projectId === this.selectProjectId())
+    this.laterTaskService.myTasksFiltered().filter(
+      task => task.projectId === this.selectProjectId()
+    )
   );
 
-  handleEdit(value: boolean, task?: Tasks) {
+  public handleEdit(value: boolean, task?: Tasks): void {
     this.isEdit = value;
     if (value && task) {
       this.currentTask = task;
@@ -73,28 +67,28 @@ export class TaskListComponent {
     }
   }
 
-  handleToggle(task: Tasks) {
+  public handleToggle(task: Tasks): void {
     this.toggled.emit(task);
   }
 
-  handleBlur = (value: boolean) => {
+  public handleBlur(value: boolean): void {
     this.isBlur = value;
-  };
+  }
 
-  submitEdit = () => {
+  public submitEdit(): void {
     if (this.taskEdit.valid && this.currentTask) {
       this.currentTask.todo = this.taskEdit.value.taskText;
       this.isEdit = false;
       this.isBlur = false;
       this.events.emit('updateTask', this.currentTask);
     }
-  };
+  }
 
-  get taskTextErrors(): string[] {
+  public get taskTextErrors(): string[] {
     const control = this.taskEdit.get('taskText');
     if (!control || !control.touched || !control.errors) return [];
 
-    const errors = [];
+    const errors: string[] = [];
 
     if (control.errors['required']) errors.push('This is Required');
     if (control.errors['maxlength']) errors.push('Max 25 Characters Allowed');

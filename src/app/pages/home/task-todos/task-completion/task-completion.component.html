@@ -1,4 +1,8 @@
 <div class="percentage__container">
     <p>Tasks Completed: {{this.percentCompleted}} %</p>
-    <mat-progress-bar mode="determinate" [value]="percentCompleted" aria-label="Completed Tasks Percentage"></mat-progress-bar>
+    <mat-progress-bar mode="determinate" [value]="percentCompleted"></mat-progress-bar>
+</div>
+
+<div aria-live="polite" class="sr-only">
+    Tasks Completed: {{ percentCompleted }}%
 </div>

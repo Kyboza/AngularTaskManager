@@ -1,8 +1,8 @@
 <div class="task-layout">
   <div class="task-layout__top-container">
-    <div (click)="updateDisplayId(null)" aria-label="Back">
+    <button class="task-layout__button-container" (click)="updateDisplayId(null)" aria-label="Back">
       <mat-icon class="task-layout__back-button">arrow_back</mat-icon>
-    </div>
+    </button>
     <h1>Tasks</h1>
     <div></div>
   </div>
@@ -10,21 +10,20 @@
   <div class="task-layout__header">
     <app-task-filter [filter]="filter()" (filterChange)="updateFilter($event)" />
     <a routerLink="create-task">
-      <app-generic-button aria-label="Add More Tasks" text="Add Task" />
+      <app-generic-button text="Add Task" />
     </a>
   </div>
 
   <div class="task-layout__content">
     <app-task-list
-      *ngIf="filteredTasks().length > 0; else noTasks"
-      [myTasks]="filteredTasks()"
+      *ngIf="myTasks().length > 0; else noTasks"
       [isLoading]="isLoading"
       (toggled)="onToggleTask($event)"
     />
   </div>
 
   <ng-template #noTasks>
-    <p class="task-layout__no-tasks-message" *ngIf="!isLoading">No Todos To Display</p>
+    <p class="task-layout__no-tasks-message" role="status" aria-live="polite" *ngIf="!isLoading">No Tasks To Display</p>
   </ng-template>
 
   <div class="task-layout__footer">
