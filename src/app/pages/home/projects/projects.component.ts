@@ -86,6 +86,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       window.addEventListener('storage', this.handleStorageChange);
     } else {
       this.allProjectsService.setMyProjects([]);
+      this.isLoading = false;
     }
   
   }

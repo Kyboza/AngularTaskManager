@@ -31,12 +31,11 @@ export class TaskItemComponent {
     if(savedTodos){
       this.events.emit('removeTask', task);
     }
-    
   }
 
   toggleCompleted = () => {
     this.task.completed = !this.task.completed;
-    this.toggled.emit(this.task); // Skickar ut Tasks-objektet korrekt
+    this.toggled.emit(this.task);
   };
 
   toggleStarted = () => {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, Input, Signal, computed } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, Input, Signal, computed, signal, WritableSignal} from '@angular/core';
 import { TaskCompletionComponent } from './task-completion/task-completion.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFilterComponent } from './task-filter/task-filter.component';
@@ -14,6 +14,7 @@ import { LaterTaskService } from '../../../shared/services/later-task-service/la
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-task-todos',
@@ -48,11 +49,15 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
 
     // Remove Task
     this.subscriptions.push(this.events.listen('removeTask', (payload: Tasks) => {
-      const todos = this.myTasks();
-      const updatedTodos = todos.filter(task => task.todo !== payload.todo);
-      localStorage.setItem('savedTodos', JSON.stringify(updatedTodos));
-      this.laterTasksService.setTasks(updatedTodos);
-      this.snackBar.show('Removed Task', 'success');
+      const savedTodos = localStorage.getItem('savedTodos');
+      const todos = parseTasks(savedTodos)
+      const index = todos.findIndex(task => task.todo === payload.todo);
+      if(index > -1){
+        todos.splice(index, 1)
+        localStorage.setItem('savedTodos', JSON.stringify(todos));
+        this.laterTasksService.setTasks(todos);
+        this.snackBar.show('Removed Task', 'success');
+      }
     }));
 
     // Add Task
@@ -79,11 +84,10 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedTodos = localStorage.getItem('savedTodos');
-      const restoredTasks = parseTasks(savedTodos);
+      const restoredTasks = savedTodos ? parseTasks(savedTodos) : [];
 
       if (restoredTasks.length > 0) {
-        const sortedTasks = restoredTasks.sort((a, b) => b.priorityValue - a.priorityValue);
-        this.laterTasksService.setTasks(sortedTasks);
+        this.laterTasksService.setTasks( restoredTasks.sort((a, b) => b.priorityValue - a.priorityValue));
         this.isLoading = false;
       } else {
         this.tasksService.getTasks().subscribe({
@@ -144,11 +148,15 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     this.projectService.setProjectId(value);
   }
 
-  filter = (task: Tasks) => true; // Placeholder, byt ut om du vill filtrera på något villkor
+  public filter: WritableSignal<(task: Tasks) => boolean> = signal((task: Tasks) => true);
 
-   filteredTasks = computed(() => {
-    return this.myTasks()?.filter(this.filter) || [];
-   })
+  filteredTasks = computed(() => {
+    return this.myTasks().filter(this.filter()) || [];
+  });
+
+  updateFilter(newFilter: (task: Tasks) => boolean) {
+    this.filter.set(newFilter);
+  }
 
   get percentCompleted(): number {
     const tasks = this.myTasks();

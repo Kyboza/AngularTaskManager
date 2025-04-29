@@ -26,7 +26,9 @@ export class LaterTaskService {
    }
 
   setTasks = (tasks: Tasks[]) => {
-    localStorage.setItem('savedTodos', JSON.stringify(tasks))
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('savedTodos', JSON.stringify(tasks))
+    }
     this.myTaskSubject.set(tasks)
   }
 }

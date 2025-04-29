@@ -1,4 +1,4 @@
-import { Component, Signal, computed } from '@angular/core';
+import { Component, Signal, signal, computed } from '@angular/core';
 import { Tasks } from '../../../../shared/models/tasks';
 import { CommonModule } from '@angular/common';
 import { TaskItemComponent } from './task-item/task-item.component';
@@ -6,8 +6,7 @@ import { Input, Output, EventEmitter } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatLabel } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { noWhitespaceValidator } from '../../../../shared/custom-validators/customValidatorWS';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField } from '@angular/material/select';
@@ -17,29 +16,36 @@ import { ProjectService } from '../../../../shared/services/projectId-service/pr
 
 @Component({
   selector: 'app-task-list',
+  standalone: true,
   imports: [
-    CommonModule, 
-    TaskItemComponent, 
-    MatProgressSpinnerModule, 
-    MatLabel, 
-    ReactiveFormsModule, 
-    MatFormField, 
-    MatIconModule, 
+    CommonModule,
+    TaskItemComponent,
+    MatProgressSpinnerModule,
+    MatLabel,
+    ReactiveFormsModule,
+    MatFormField,
+    MatIconModule,
     MatInputModule
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent {
-  @Input() myTasks: Tasks[] = [];
+  private _myTasks = signal<Tasks[]>([]);
+  @Input() set myTasks(value: Tasks[]) {
+    this._myTasks.set(value);
+  }
+  get myTasks(): Tasks[] {
+    return this._myTasks();
+  }
+
   @Input() isLoading: boolean = true;
   @Output() toggled = new EventEmitter<Tasks>();
-
 
   public isBlur: boolean = false;
   public isEdit: boolean = false;
   currentTask: Tasks | null = null;
-  selectProjectId: Signal<number | null>
+  selectProjectId: Signal<number | null>;
   isLast: boolean = false;
 
   taskEdit: FormGroup = new FormGroup({
@@ -52,12 +58,11 @@ export class TaskListComponent {
   });
 
   constructor(private events: EventService, private projectService: ProjectService) {
-    this.selectProjectId = this.projectService.idSubject
+    this.selectProjectId = this.projectService.idSubject;
   }
 
-  // Filtrera tasks baserat på selectedProjectId
-  public filteredTasksById = computed(() => 
-    this.myTasks.filter(task => task.projectId === this.selectProjectId())
+  public filteredTasksById = computed(() =>
+    this._myTasks().filter(task => task.projectId === this.selectProjectId())
   );
 
   handleEdit(value: boolean, task?: Tasks) {
@@ -91,18 +96,10 @@ export class TaskListComponent {
 
     const errors = [];
 
-    if (control.errors['required']) {
-      errors.push('This is Required');
-    }
-    if (control.errors['maxlength']) {
-      errors.push('Max 25 Characters Allowed');
-    }
-    if (control.errors['minlength']) {
-      errors.push('Must Provide At least 5 Characters');
-    }
-    if (control.errors['whitespace']) {
-      errors.push('Task cannot be only spaces');
-    }
+    if (control.errors['required']) errors.push('This is Required');
+    if (control.errors['maxlength']) errors.push('Max 25 Characters Allowed');
+    if (control.errors['minlength']) errors.push('Must Provide At least 5 Characters');
+    if (control.errors['whitespace']) errors.push('Task cannot be only spaces');
 
     return errors;
   }
