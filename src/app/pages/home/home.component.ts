@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -13,14 +13,10 @@ import { ProjectsComponent } from './projects/projects.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   public selectProjectId: Signal<number | null>;
 
   constructor(private projectService: ProjectService) {
     this.selectProjectId = this.projectService.idSubject;
-  }
-
-  public ngOnInit(): void {
-    console.log(this.selectProjectId());
   }
 }
