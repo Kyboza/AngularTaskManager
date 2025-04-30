@@ -9,14 +9,9 @@ import { ProjectsComponent } from './projects/projects.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    TaskTodosComponent,
-    ProjectsComponent
-  ],
+  imports: [CommonModule, RouterModule, TaskTodosComponent, ProjectsComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   public selectProjectId: Signal<number | null>;

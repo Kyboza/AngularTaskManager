@@ -7,7 +7,7 @@
 mat-progress-bar {
   border-radius: 10px;
   padding: 0;
-  
+
   .mat-progress-bar-background {
     background-color: red;
   }
@@ -23,7 +23,7 @@ mat-progress-bar {
   gap: 0.5rem;
 }
 
-.sr-only{
+.sr-only {
   position: absolute;
   left: -10000px;
 }

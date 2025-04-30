@@ -16,7 +16,8 @@
 }
 
 // 2. Allmänna stilar för HTML och BODY
-html, body {
+html,
+body {
   min-height: 100vh;
   min-width: 100vw;
   font-family: $quicksand;
@@ -43,7 +44,8 @@ button {
 }
 
 // 4. Formulär och textrutor
-input, textarea {
+input,
+textarea {
   font-family: $quicksand;
   border: none;
   outline: none;
@@ -51,7 +53,7 @@ input, textarea {
 
 // 5. Typografi
 p {
-  font-size: font-size("small");
+  font-size: font-size('small');
 }
 
 // 6. Huvudlayout (main)
@@ -71,4 +73,3 @@ main {
   background-color: var(--mat-sys-error);
   color: var(--mat-sys-on-error);
 }
-

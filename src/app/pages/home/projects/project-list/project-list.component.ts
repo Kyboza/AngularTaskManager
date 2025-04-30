@@ -19,10 +19,10 @@ import { ProjectItemComponent } from './project-item/project-item.component';
     ReactiveFormsModule,
     MatIconModule,
     MatInputModule,
-    ProjectItemComponent
+    ProjectItemComponent,
   ],
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss']
+  styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent {
   @Input() public myProjects: Projects[] = [];
@@ -39,8 +39,8 @@ export class ProjectListComponent {
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(30),
-      noWhitespaceValidator
-    ])
+      noWhitespaceValidator,
+    ]),
   });
 
   public constructor(private events: EventService) {}

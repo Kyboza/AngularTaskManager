@@ -8,12 +8,12 @@ import { Tasks } from '../../../../shared/models/tasks';
 describe('TaskFilterComponent', () => {
   let component: TaskFilterComponent;
   let fixture: ComponentFixture<TaskFilterComponent>;
-  
+
   const filters = [
     (task: Tasks) => task,
     (task: Tasks) => task.completed,
-    (task: Tasks) => !task.completed
-  ]
+    (task: Tasks) => !task.completed,
+  ];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TaskFilterComponent, FormsModule, MatSelectModule],
@@ -35,7 +35,7 @@ describe('TaskFilterComponent', () => {
 
   it('should update the filter correctly', () => {
     spyOn(component.filterChange, 'emit');
-    
+
     // Testa filter med "1" (completed tasks)
     component.updateFilter(1);
     expect(component.filter).toBe(filters[1]); // Förvänta att filter[1] (completed tasks) tillämpas
@@ -49,7 +49,7 @@ describe('TaskFilterComponent', () => {
 
   it('should emit correct filter on filter change', () => {
     spyOn(component.filterChange, 'emit');
-    
+
     // Ändra filter till "Fulfilled"
     component.updateFilter(1);
     expect(component.filterChange.emit).toHaveBeenCalledWith(filters[1]);
@@ -63,7 +63,7 @@ describe('TaskFilterComponent', () => {
     fixture.detectChanges(); // Tvinga en omrendering av komponenten
     const select = fixture.debugElement.query(By.css('mat-select'));
     const options = select.nativeElement.querySelectorAll('mat-option');
-    
+
     // Kontrollera att alla tre filteralternativ visas korrekt
     expect(options.length).toBe(3);
     expect(options[0].textContent).toContain('All');

@@ -4,15 +4,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { Projects } from '../../../../../shared/models/projects';
+import { HoverColorDirective } from '../../../../../shared/custom-directive/hover-color';
+import { CapitalizePipe } from '../../../../../shared/custom-pipe/capitalize';
 import { EventService } from '../../../../../shared/services/event-service/event.service';
 import { ProjectService } from '../../../../../shared/services/projectId-service/project.service';
 
 @Component({
   selector: 'app-project-item',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatCheckboxModule],
+  imports: [CommonModule, CapitalizePipe, HoverColorDirective, MatIconModule, MatCheckboxModule],
   templateUrl: './project-item.component.html',
-  styleUrls: ['./project-item.component.scss']
+  styleUrls: ['./project-item.component.scss'],
 })
 export class ProjectItemComponent {
   @Input() public project!: Projects;
@@ -27,7 +29,7 @@ export class ProjectItemComponent {
 
   public constructor(
     public events: EventService,
-    public projectService: ProjectService
+    public projectService: ProjectService,
   ) {}
 
   public removeTask(project: Projects): void {

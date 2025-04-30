@@ -6,11 +6,11 @@ import { ProjectService } from '../../shared/services/projectId-service/project.
   selector: 'app-header',
   imports: [RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  constructor(private projectId: ProjectService){}
+  constructor(private projectId: ProjectService) {}
   resetSelectId = (value: null) => {
-    this.projectId.setProjectId(value)
-  }
+    this.projectId.setProjectId(value);
+  };
 }

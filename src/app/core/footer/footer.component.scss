@@ -3,21 +3,18 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/functions' as *;
 
-.footer{
-    @include flex-center;
-    height: 15vh;
-    width: $full-width;
-    border-top: $border-black;
-    background-color: var(--mat-sys-primary);
-    color: white;
-    flex-shrink: 0;
-    box-shadow: $shadow-footer;
+.footer {
+  @include flex-center;
+  height: 15vh;
+  width: $full-width;
+  border-top: $border-black;
+  background-color: var(--mat-sys-primary);
+  color: white;
+  flex-shrink: 0;
+  box-shadow: $shadow-footer;
 
-    &__title{
-        font-size: font-size("small");
-        text-shadow: $shadow-title;
-    }
+  &__title {
+    font-size: font-size('small');
+    text-shadow: $shadow-title;
   }
-  
-  
-  
+}

@@ -1,45 +1,67 @@
 <h1 class="task-create__title">Create New Task</h1>
 <form class="task-create__form" [formGroup]="newTask" (ngSubmit)="createTask()">
-
   <mat-form-field class="task-create__form-field" appearance="outline">
     <mat-label>Enter Task</mat-label>
-    <input formControlName="taskText" matInput type="text" placeholder="Enter Task" aria-describedby="taskInputError" aria-required="true"/>
+    <input
+      formControlName="taskText"
+      matInput
+      type="text"
+      placeholder="Enter Task"
+      aria-describedby="taskInputError"
+      aria-required="true"
+    />
   </mat-form-field>
 
   <div id="taskInputError" class="task-create__error-text" *ngIf="taskTextErrors.length">
-    {{taskTextErrors.join(', ')}}
+    {{ taskTextErrors.join(', ') }}
   </div>
 
   <mat-form-field class="task-create__form-field" appearance="outline">
     <mat-label>Select Project</mat-label>
-    <mat-select formControlName="taskProject" aria-describedby="selectErrorProjectTask" aria-required="true">
-      <mat-option id="selectErrorProjectTask" *ngFor="let project of myProjects()" [value]="project.id">{{project.title}}</mat-option>
+    <mat-select
+      formControlName="taskProject"
+      aria-describedby="selectErrorProjectTask"
+      aria-required="true"
+    >
+      <mat-option
+        id="selectErrorProjectTask"
+        *ngFor="let project of myProjects()"
+        [value]="project.id"
+        >{{ project.title | capitalize }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
 
-  <div class="task-create__error-text" *ngIf="newTask.get('taskProject')?.touched && newTask.get('taskProject')?.errors?.['required']">
+  <div
+    class="task-create__error-text"
+    *ngIf="newTask.get('taskProject')?.touched && newTask.get('taskProject')?.errors?.['required']"
+  >
     <span>This is Required</span>
   </div>
 
- 
   <mat-form-field class="task-create__form-field" appearance="outline">
     <mat-label>Select Priority</mat-label>
-    <mat-select formControlName="taskPrio" aria-describedby="selectErrorPrioTask" aria-required="true">
+    <mat-select
+      formControlName="taskPrio"
+      aria-describedby="selectErrorPrioTask"
+      aria-required="true"
+    >
       <mat-option value="Low">Low</mat-option>
       <mat-option value="Medium">Medium</mat-option>
       <mat-option value="High">High</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <div id="selectErrorPrioTask" class="task-create__error-text" *ngIf="newTask.get('taskPrio')?.touched && newTask.get('taskPrio')?.errors?.['required']">
+  <div
+    id="selectErrorPrioTask"
+    class="task-create__error-text"
+    *ngIf="newTask.get('taskPrio')?.touched && newTask.get('taskPrio')?.errors?.['required']"
+  >
     <span>This is Required</span>
   </div>
 
   <div class="task-create__button-container">
-    <app-generic-button 
-      type="submit" 
-      text="Create Task" 
-      [disabled]="!newTask.valid">
+    <app-generic-button type="submit" text="Create Task" [disabled]="!newTask.valid">
     </app-generic-button>
   </div>
 </form>

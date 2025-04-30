@@ -5,7 +5,7 @@ import { Projects } from '../../models/projects';
 import { parseProjects } from '../../utility/parseProjects';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AllProjectsService {
   private myProjectsSubject = signal<Projects[]>([]);
@@ -27,7 +27,7 @@ export class AllProjectsService {
   public get myProjects() {
     return this.myProjectsSubject;
   }
-  
+
   public setMyProjects(projects: Projects[]): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('savedProjects', JSON.stringify(projects));
@@ -35,4 +35,3 @@ export class AllProjectsService {
     this.myProjectsSubject.set(projects);
   }
 }
-

@@ -4,14 +4,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { Tasks } from '../../../../../shared/models/tasks';
+import { HoverColorDirective } from '../../../../../shared/custom-directive/hover-color';
+import { CapitalizePipe } from '../../../../../shared/custom-pipe/capitalize';
 import { EventService } from '../../../../../shared/services/event-service/event.service';
 
 @Component({
   selector: 'app-task-item',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatCheckboxModule],
+  imports: [CommonModule, CapitalizePipe, HoverColorDirective, MatIconModule, MatCheckboxModule],
   templateUrl: './task-item.component.html',
-  styleUrls: ['./task-item.component.scss']
+  styleUrls: ['./task-item.component.scss'],
 })
 export class TaskItemComponent {
   @Input() public task!: Tasks;

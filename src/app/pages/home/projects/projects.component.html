@@ -15,7 +15,9 @@
       class="task-layout__project-list"
     />
     <ng-template #noProjects>
-      <p class="task-layout__no-projects" *ngIf="!isLoading">No Projects To Display</p>
+      <p class="task-layout__no-projects" *ngIf="!isLoading" role="status" aria-live="polite">
+        No Projects To Display
+      </p>
     </ng-template>
   </div>
 

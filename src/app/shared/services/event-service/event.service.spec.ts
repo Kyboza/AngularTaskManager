@@ -26,7 +26,7 @@ describe('EventService', () => {
 
     subscription = service.listen('testEvent', (payload) => {
       expect(payload).toEqual(testPayload);
-      done(); 
+      done();
     });
 
     service.emit('testEvent', testPayload);

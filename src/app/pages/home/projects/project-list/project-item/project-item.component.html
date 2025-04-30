@@ -1,16 +1,30 @@
-<li class="project-task" [ngClass]="{'project-task--last': isLast}">
+<li class="project-task" [ngClass]="{ 'project-task--last': isLast }">
   <div class="project-task__container">
-    <button class="project-task__title-button" (click)="updateDisplayId(project.id)" aria-label="Visit Project">
-      {{ project.title }}
+    <button
+      class="project-task__title-button"
+      (click)="updateDisplayId(project.id)"
+      aria-label="Visit Project"
+    >
+      {{ project.title | capitalize }}
     </button>
-    <p class="project-task__deadline" [ngClass]="{ 'project-task__deadline--expired': project.deadline && project.deadline < now }">
-      Deadline: {{ project.deadline && project.deadline >= now ? (project.deadline | date:'yyyy-MM-dd') : 'Expired' }}
+    <p
+      class="project-task__deadline"
+      [ngClass]="{ 'project-task__deadline--expired': project.deadline && project.deadline < now }"
+    >
+      Deadline:
+      {{
+        project.deadline && project.deadline >= now
+          ? (project.deadline | date: 'yyyy-MM-dd')
+          : ('Expired' | capitalize)
+      }}
     </p>
   </div>
 
   <div class="project-task__actions">
     <button mat-icon-button (click)="editProject(project)" aria-label="Edit Project">
-      <mat-icon class="project-task__icon">edit</mat-icon>
+      <mat-icon class="project-task__icon" appHoverClass [hoverClass]="'project-task__icon-hover'"
+        >edit</mat-icon
+      >
     </button>
   </div>
 
@@ -21,6 +35,6 @@
   </div>
 
   <div class="project-task__priority">
-    <p>{{ project.priority }}</p>
+    <p>{{ project.priority | capitalize }}</p>
   </div>
 </li>

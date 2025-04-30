@@ -1,29 +1,48 @@
 <div class="task">
-  <ul class="task__list" [ngClass]="{ 'task__list--blur': isBlur }">
-
-    <div class="task__loading" *ngIf="isLoading; else showProjects">
-      <mat-progress-spinner class="task__loading-icon" mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <div class="task__list" [ngClass]="{ 'task__list--blur': isBlur }">
+    <div
+      class="task__loading"
+      *ngIf="isLoading; else showProjects"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <mat-progress-spinner class="task__loading-icon" mode="indeterminate" diameter="50"
+        ><span class="sr-only">Loading Projects</span></mat-progress-spinner
+      >
     </div>
 
     <ng-template #showProjects>
-      <app-project-item
-        *ngFor="let project of myProjects; let isLast = last"
-        [project]="project"
-        (toggled)="handleToggle($event)"
-        (enableBlur)="handleBlur($event)"
-        (enableEdit)="handleEdit($event[0], $event[1])"
-        [isLast]="isLast"
-      />
+      <h2 id="projectListHeading" class="sr-only">List Of Projects</h2>
+      <ul aria-labelledby="projectListHeading" class="task__list-ul">
+        <app-project-item
+          *ngFor="let project of myProjects; let isLast = last"
+          [project]="project"
+          (toggled)="handleToggle($event)"
+          (enableBlur)="handleBlur($event)"
+          (enableEdit)="handleEdit($event[0], $event[1])"
+          [isLast]="isLast"
+        />
+      </ul>
     </ng-template>
+  </div>
 
-  </ul>
-
-  <form *ngIf="isEdit" [formGroup]="projectEdit" (ngSubmit)="submitEdit()" class="task-edit">
-
+  <form
+    *ngIf="isEdit"
+    [formGroup]="projectEdit"
+    (ngSubmit)="submitEdit()"
+    class="task-edit"
+    aria-label="Edit Project Form"
+  >
     <div class="task-edit__inputs">
       <mat-form-field appearance="outline">
         <mat-label>Enter Project</mat-label>
-        <input aria-describedby="selectUpdateProject" formControlName="projectText" matInput type="text" />
+        <input
+          aria-describedby="selectUpdateProject"
+          formControlName="projectText"
+          matInput
+          type="text"
+          [attr.aria-invalid]="projectEdit.get('projectText')?.invalid"
+        />
       </mat-form-field>
 
       <button mat-icon-button type="submit" aria-label="Submit Update">
@@ -31,11 +50,14 @@
       </button>
     </div>
 
-    <div class="task-edit__errors" id="selectUpdateProject" *ngIf="projectEdit.get('projectText')?.touched && projectTextErrors.length">
+    <div
+      class="task-edit__errors"
+      id="selectUpdateProject"
+      *ngIf="projectEdit.get('projectText')?.touched && projectTextErrors.length"
+    >
       <div class="task-edit__error-text">
         {{ projectTextErrors.join(', ') }}
       </div>
     </div>
-
   </form>
 </div>

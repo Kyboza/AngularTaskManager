@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:task-mananger": "node dist/task-mananger/server/server.mjs"
+    "serve:ssr:task-mananger": "node dist/task-mananger/server/server.mjs",
+    "format": "prettier --write \"src/**/*.{ts,js,html,css,scss}\""
   },
   "private": true,
   "dependencies": {
@@ -40,6 +41,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.5.3",
     "typescript": "~5.7.2"
   }
 }

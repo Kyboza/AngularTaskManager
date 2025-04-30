@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders } from '@angular
 import { catchError, throwError, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
   constructor(private http: HttpClient) {}
@@ -11,8 +11,8 @@ export class TaskService {
   private getStandardOptions(): { headers: HttpHeaders; params?: HttpParams } {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+        'Content-Type': 'application/json',
+      }),
     };
   }
 
@@ -20,12 +20,12 @@ export class TaskService {
     const options = this.getStandardOptions();
     options.params = new HttpParams({
       fromObject: {
-        limit: '5'
-      }
+        limit: '5',
+      },
     });
-    return this.http.get('https://dummyjson.com/todos', options).pipe(
-      catchError(this.handleError.bind(this))
-    );
+    return this.http
+      .get('https://dummyjson.com/todos', options)
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

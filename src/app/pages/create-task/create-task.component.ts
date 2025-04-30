@@ -9,6 +9,7 @@ import { GenericButtonComponent } from '../../shared/generic-button/generic-butt
 import { noWhitespaceValidator } from '../../shared/custom-validators/customValidatorWS';
 import { Tasks } from '../../shared/models/tasks';
 import { Projects } from '../../shared/models/projects';
+import { CapitalizePipe } from '../../shared/custom-pipe/capitalize';
 import { AllProjectsService } from '../../shared/services/projects-service/allProjects.service';
 import { LaterTaskService } from '../../shared/services/later-task-service/later-task.service';
 
@@ -17,13 +18,14 @@ import { LaterTaskService } from '../../shared/services/later-task-service/later
   standalone: true,
   imports: [
     CommonModule,
+    CapitalizePipe,
     GenericButtonComponent,
     ReactiveFormsModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
   ],
   templateUrl: './create-task.component.html',
-  styleUrls: ['./create-task.component.scss']
+  styleUrls: ['./create-task.component.scss'],
 })
 export class CreateTaskComponent {
   public myProjects!: Signal<Projects[]>;
@@ -34,16 +36,16 @@ export class CreateTaskComponent {
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(25),
-      noWhitespaceValidator
+      noWhitespaceValidator,
     ]),
     taskPrio: new FormControl('', [Validators.required]),
-    taskProject: new FormControl('', [Validators.required])
+    taskProject: new FormControl('', [Validators.required]),
   });
 
   public constructor(
     private allProjectsService: AllProjectsService,
     private laterTaskService: LaterTaskService,
-    private router: Router
+    private router: Router,
   ) {
     this.myTasks = this.laterTaskService.myTasks;
     this.myProjects = this.allProjectsService.myProjects;
@@ -63,7 +65,7 @@ export class CreateTaskComponent {
       false,
       taskPrio,
       taskProject,
-      undefined
+      undefined,
     );
 
     const allTasks = [...this.laterTaskService.myTasks(), task];

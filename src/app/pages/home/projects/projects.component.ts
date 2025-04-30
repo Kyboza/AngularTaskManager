@@ -14,14 +14,9 @@ import { AllProjectsService } from '../../../shared/services/projects-service/al
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [
-    CommonModule,
-    ProjectListComponent,
-    GenericButtonComponent,
-    RouterModule
-  ],
+  imports: [CommonModule, ProjectListComponent, GenericButtonComponent, RouterModule],
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   public myProjects!: Signal<Projects[]>;
@@ -32,7 +27,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private events: EventService,
     private snackBar: SnackbarService,
-    private allProjectsService: AllProjectsService
+    private allProjectsService: AllProjectsService,
   ) {
     this.myProjects = this.allProjectsService.myProjects;
 
@@ -40,7 +35,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.events.listen('removeProject', (payload: Projects) => {
         const savedProjects = localStorage.getItem('savedProjects');
         const projects = parseProjects(savedProjects);
-        const index = projects.findIndex(project => project.title === payload.title);
+        const index = projects.findIndex((project) => project.title === payload.title);
 
         if (index > -1) {
           projects.splice(index, 1);
@@ -48,21 +43,21 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           this.allProjectsService.setMyProjects(projects);
           this.snackBar.show('Removed Project', 'success');
         }
-      })
+      }),
     );
 
     this.subscriptions.push(
       this.events.listen('updateProject', (payload: Projects) => {
         const savedProjects = localStorage.getItem('savedProjects');
         const projects = parseProjects(savedProjects);
-        const updatedProjects = projects.map(project =>
-          project.id === payload.id ? payload : project
+        const updatedProjects = projects.map((project) =>
+          project.id === payload.id ? payload : project,
         );
 
         this.allProjectsService.setMyProjects(updatedProjects);
         localStorage.setItem('savedProjects', JSON.stringify(updatedProjects));
         this.snackBar.show('Updated Project', 'success');
-      })
+      }),
     );
   }
 
@@ -73,7 +68,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
       if (parsedProjects.length > 0) {
         this.allProjectsService.setMyProjects(
-          parsedProjects.sort((a, b) => b.priorityValue - a.priorityValue)
+          parsedProjects.sort((a, b) => b.priorityValue - a.priorityValue),
         );
       } else {
         this.allProjectsService.setMyProjects([]);
@@ -95,7 +90,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   };
 
   public ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
 
     if (typeof window !== 'undefined') {
       window.removeEventListener('storage', this.handleStorageChange);

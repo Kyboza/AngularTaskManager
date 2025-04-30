@@ -8,16 +8,9 @@ export function parseTasks(raw: string | any[] | null): Tasks[] {
       return [];
     }
 
-    return parsedData.map((t: any) =>
-      new Tasks(
-        t.id,
-        t.todo,
-        t.started,
-        t.completed,
-        t.priority || 'Low',
-        t.projectId,
-        t.userId
-      )
+    return parsedData.map(
+      (t: any) =>
+        new Tasks(t.id, t.todo, t.started, t.completed, t.priority || 'Low', t.projectId, t.userId),
     );
   } catch (error: any) {
     console.error('Failed To Parse Tasks', error);

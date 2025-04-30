@@ -21,10 +21,10 @@ import { LaterTaskService } from '../../../../shared/services/later-task-service
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
   ],
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+  styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent {
   @Input() public isLoading: boolean = true;
@@ -41,22 +41,22 @@ export class TaskListComponent {
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(25),
-      noWhitespaceValidator
-    ])
+      noWhitespaceValidator,
+    ]),
   });
 
   public constructor(
     private events: EventService,
     private projectService: ProjectService,
-    private laterTaskService: LaterTaskService
+    private laterTaskService: LaterTaskService,
   ) {
     this.selectProjectId = this.projectService.idSubject;
   }
 
   public filteredTasksById = computed(() =>
-    this.laterTaskService.myTasksFiltered().filter(
-      task => task.projectId === this.selectProjectId()
-    )
+    this.laterTaskService
+      .myTasksFiltered()
+      .filter((task) => task.projectId === this.selectProjectId()),
   );
 
   public handleEdit(value: boolean, task?: Tasks): void {

@@ -19,10 +19,10 @@ import { SnackbarService } from '../../shared/services/snackbar/snackbar.service
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    GenericButtonComponent
+    GenericButtonComponent,
   ],
   templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.scss']
+  styleUrls: ['./create-project.component.scss'],
 })
 export class CreateProjectComponent implements OnInit {
   public myProjects!: Signal<Projects[]>;
@@ -32,15 +32,15 @@ export class CreateProjectComponent implements OnInit {
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(30),
-      noWhitespaceValidator
+      noWhitespaceValidator,
     ]),
-    projectPrio: new FormControl('', [Validators.required])
+    projectPrio: new FormControl('', [Validators.required]),
   });
 
   public constructor(
     private snackBar: SnackbarService,
     private allProjectsService: AllProjectsService,
-    private router: Router
+    private router: Router,
   ) {
     this.myProjects = this.allProjectsService.myProjects;
   }
@@ -53,14 +53,11 @@ export class CreateProjectComponent implements OnInit {
 
     if (this.newProject.invalid || !projectText || !projectPrio) return;
 
-    const lastId = this.allProjectsService.myProjects()[this.allProjectsService.myProjects().length - 1]?.id ?? 0;
+    const lastId =
+      this.allProjectsService.myProjects()[this.allProjectsService.myProjects().length - 1]?.id ??
+      0;
 
-    const project = new Projects(
-      lastId + 1,
-      projectText,
-      undefined,
-      projectPrio
-    );
+    const project = new Projects(lastId + 1, projectText, undefined, projectPrio);
 
     const allProjects = [...this.allProjectsService.myProjects(), project];
     this.allProjectsService.setMyProjects(allProjects);
@@ -85,4 +82,3 @@ export class CreateProjectComponent implements OnInit {
     return errors;
   }
 }
-

@@ -35,6 +35,10 @@
     vertical-align: middle;
   }
 
+  &__icon-hover {
+    background-color: var(--mat-sys-primary);
+  }
+
   &__check {
     display: flex;
     justify-content: center;

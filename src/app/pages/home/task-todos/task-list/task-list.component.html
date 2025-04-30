@@ -1,7 +1,7 @@
 <div class="task-layout__list-container">
   <div
     class="task-layout__list"
-    [ngClass]="{'task-layout__list--blur': isBlur}"
+    [ngClass]="{ 'task-layout__list--blur': isBlur }"
     [attr.aria-busy]="isLoading ? 'true' : null"
   >
     <div
@@ -36,11 +36,7 @@
     </ng-template>
 
     <ng-template #showNone>
-      <p
-        class="task-layout__no-tasks-message"
-        role="status"
-        aria-live="polite"
-      >
+      <p class="task-layout__no-tasks-message" role="status" aria-live="polite">
         No Tasks To Display
       </p>
     </ng-template>
@@ -69,10 +65,7 @@
       </mat-form-field>
 
       <button mat-icon-button type="submit">
-        <mat-icon
-          aria-label="Update Task Submit"
-          class="task-layout__button-icon"
-        >
+        <mat-icon aria-label="Update Task Submit" class="task-layout__button-icon">
           check
         </mat-icon>
       </button>

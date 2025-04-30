@@ -1,9 +1,11 @@
-<li class="task-item" [ngClass]="{'task-item--last': isLast}">
+<li class="task-item" [ngClass]="{ 'task-item--last': isLast }">
   <p class="task-item__text">{{ task.todo }}</p>
 
   <div class="task-item__actions">
     <button aria-label="Edit Task" mat-icon-button (click)="editTask(task)">
-      <mat-icon class="task-item__icon">edit</mat-icon>
+      <mat-icon class="task-item__icon" appHoverClass [hoverClass]="'task-item__icon-hover'"
+        >edit</mat-icon
+      >
     </button>
   </div>
 
@@ -20,12 +22,16 @@
   </div>
 
   <div class="task-item__check">
-    <mat-checkbox aria-label="Toggle Completed"(change)="toggleCompleted()" [checked]="task.completed">
+    <mat-checkbox
+      aria-label="Toggle Completed"
+      (change)="toggleCompleted()"
+      [checked]="task.completed"
+    >
       <p>Done</p>
     </mat-checkbox>
   </div>
 
   <div class="task-item__priority">
-    <p>{{ task.priority }}</p>
+    <p>{{ task.priority | capitalize }}</p>
   </div>
 </li>

@@ -3,20 +3,19 @@
 @use '../../shared/styles/variables' as *;
 @use '../../shared/styles/functions' as *;
 
-.header{
-    @include flex-center;
-    height: 15vh;
-    width: $full-width;
-    border-bottom: $border-black;
-    background-color: var(--mat-sys-primary);
-    color: white;
-    flex-shrink: 0;
-    box-shadow: $shadow-header;
+.header {
+  @include flex-center;
+  height: 15vh;
+  width: $full-width;
+  border-bottom: $border-black;
+  background-color: var(--mat-sys-primary);
+  color: white;
+  flex-shrink: 0;
+  box-shadow: $shadow-header;
 
-    &__title{
-        font-size: font-size("x-large");
-        text-shadow: $shadow-title;
-        cursor: pointer;
-      }
+  &__title {
+    font-size: font-size('x-large');
+    text-shadow: $shadow-title;
+    cursor: pointer;
   }
-  
+}

@@ -1,11 +1,19 @@
-import { Injectable, signal, WritableSignal, computed, PLATFORM_ID, Inject, Signal } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  WritableSignal,
+  computed,
+  PLATFORM_ID,
+  Inject,
+  Signal,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { Tasks } from '../../models/tasks';
 import { parseTasks } from '../../utility/parseTasks';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LaterTaskService {
   public myTaskSubject: WritableSignal<Tasks[]> = signal([]);
