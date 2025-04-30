@@ -99,20 +99,19 @@
       vertical-align: middle;
     }
   }
+}
 
-  mat-form-field {
-    flex-grow: 1;
-  }
+mat-form-field {
+  flex-grow: 1;
+}
 
-  .sr-only {
-    position: absolute;
-    left: -10000px;
-  }
+.sr-only {
+  position: absolute;
+  left: -10000px;
+}
 
-  // Responsive
-  @media screen and (max-width: 668px) {
-    .task-edit {
-      width: 90%;
-    }
+@media screen and (max-width: 668px) {
+  .task-edit {
+    width: 90%;
   }
 }

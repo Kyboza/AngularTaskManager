@@ -52,15 +52,14 @@
     <h2 id="editTaskHeading" class="task-layout__offscreen">Edit Task</h2>
 
     <div class="task-layout__edit-inputs">
-      <mat-label class="task-layout__offscreen">Enter Task</mat-label>
       <mat-form-field appearance="outline">
+        <mat-label>Enter Task</mat-label>
         <input
           formControlName="taskText"
           matInput
           type="text"
-          placeholder="Enter Task"
           aria-describedby="selectTaskUpdate"
-          [attr.aria-invalid]="taskEdit.get('taskText')?.invalid ? 'true' : null"
+          [attr.aria-invalid]="taskEdit.get('taskText')?.invalid"
         />
       </mat-form-field>
 
