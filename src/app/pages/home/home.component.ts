@@ -1,7 +1,5 @@
 import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
 import { ProjectService } from '../../shared/services/projectId-service/project.service';
 import { TaskTodosComponent } from './task-todos/task-todos.component';
 import { ProjectsComponent } from './projects/projects.component';
@@ -9,7 +7,7 @@ import { ProjectsComponent } from './projects/projects.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, TaskTodosComponent, ProjectsComponent],
+  imports: [CommonModule, TaskTodosComponent, ProjectsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
