@@ -28,7 +28,9 @@ import { LaterTaskService } from '../../../../shared/services/later-task-service
 })
 export class TaskListComponent {
   @Input() public isLoading: boolean = true;
+  @Input() tasks: Tasks[] = [];
   @Output() public toggled = new EventEmitter<Tasks>();
+  
 
   public isBlur: boolean = false;
   public isEdit: boolean = false;

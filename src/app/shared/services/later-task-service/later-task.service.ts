@@ -39,6 +39,7 @@ export class LaterTaskService {
 
   public setTasks(tasks: Tasks[]): void {
     this.myTaskSubject.set(tasks);
+    localStorage.setItem('savedTodos', JSON.stringify(tasks));
   }
 
   private loadTasks(): void {

@@ -8,102 +8,103 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: auto;
   width: 100%;
-  height: 100%;
   padding: 1rem;
   border-bottom: 1px solid var(--mat-sys-primary);
+  box-sizing: border-box;
+}
 
-  &--last {
-    border-bottom: none;
+.project-task--last {
+  border-bottom: none;
+}
+
+.project-task__container {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.project-task__title-button {
+  font-size: medium;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+}
+
+.project-task__deadline--expired {
+  color: red;
+  font-style: italic;
+}
+
+.project-task__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.project-task__priority {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 25px;
+  border: 1px solid gray;
+  padding: 0.2rem;
+  box-sizing: border-box;
+}
+
+.project-task__priority p {
+  font-size: small;
+}
+
+.project-task__icon {
+  background-color: var(--mat-sys-on-primary);
+  color: var(--mat-sys-primary);
+  vertical-align: middle;
+}
+
+.project-task__icon-hover {
+  background-color: var(--mat-sys-primary);
+}
+
+.project-task__edit-container input {
+  background-color: var(--mat-sys-on-primary);
+}
+
+/* Responsivitet */
+@media screen and (max-width: 668px) {
+  .project-task__title {
+    font-size: x-small;
   }
 
-  &__container {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
+  .project-task p {
+    font-size: x-small;
   }
 
-  &__title-button {
-    font-size: medium;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    text-align: left;
+  .project-task mat-icon {
+    font-size: 16px;
   }
 
-  &__deadline {
-    &--expired {
-      color: red;
-      font-style: italic;
-    }
+  .project-task__icon {
+    font-size: 16px;
+    padding: 0.25rem;
   }
 
-  &__actions,
-  &__priority {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
+  .project-task__actions button,
+  .project-task__check mat-checkbox {
+    transform: scale(0.85);
   }
 
-  &__priority {
-    width: 60px;
-    height: 25px;
-    border: 1px solid gray;
-    padding: 0.2rem;
-
-    p {
-      font-size: small;
-    }
+  .project-task__check mat-checkbox .mat-checkbox-label {
+    font-size: 10px;
   }
 
-  &__icon {
-    background-color: var(--mat-sys-on-primary);
-    color: var(--mat-sys-primary);
-    vertical-align: middle;
-  }
-
-  &__icon-hover {
-    background-color: var(--mat-sys-primary);
-  }
-
-  &__edit-container {
-    input {
-      background-color: var(--mat-sys-on-primary);
-    }
-  }
-
-  @media screen and (max-width: 668px) {
-    &__title {
-      font-size: x-small;
-    }
-
-    p {
-      font-size: x-small;
-    }
-
-    mat-icon {
-      font-size: 16px;
-    }
-
-    &__icon {
-      font-size: 16px;
-      padding: 0.25rem;
-    }
-
-    &__actions button,
-    &__check mat-checkbox {
-      transform: scale(0.85);
-    }
-
-    &__check mat-checkbox .mat-checkbox-label {
-      font-size: 10px;
-    }
-
-    &__priority p {
-      font-size: 10px;
-    }
+  .project-task__priority p {
+    font-size: 10px;
   }
 }

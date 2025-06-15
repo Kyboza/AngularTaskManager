@@ -53,18 +53,19 @@ export class CreateProjectComponent implements OnInit {
 
     if (this.newProject.invalid || !projectText || !projectPrio) return;
 
-    const lastId =
-      this.allProjectsService.myProjects()[this.allProjectsService.myProjects().length - 1]?.id ??
-      0;
+    const currentProjects = this.allProjectsService.myProjects();
+    const maxId = currentProjects.length
+      ? Math.max(...currentProjects.map(p => p.id))
+      : 0;
 
-    const project = new Projects(lastId + 1, projectText, undefined, projectPrio);
+    const project = new Projects(maxId + 1, projectText, undefined, projectPrio);
 
-    const allProjects = [...this.allProjectsService.myProjects(), project];
+    const allProjects = [...currentProjects, project];
     this.allProjectsService.setMyProjects(allProjects);
 
     this.router.navigate(['']).then(() => {
       this.newProject.reset();
-      this.snackBar.show('Added Projects', 'success');
+      this.snackBar.show('Added Project', 'success');
     });
   }
 

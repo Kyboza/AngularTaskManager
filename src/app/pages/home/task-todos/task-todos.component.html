@@ -15,11 +15,12 @@
   </div>
 
   <div class="task-layout__content">
-    <app-task-list
+   <app-task-list
       *ngIf="myTasks().length > 0; else noTasks"
+      [tasks]="myTasks()"
       [isLoading]="isLoading"
       (toggled)="onToggleTask($event)"
-    />
+/>
   </div>
 
   <ng-template #noTasks>

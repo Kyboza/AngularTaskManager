@@ -46,19 +46,20 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       }),
     );
 
-    this.subscriptions.push(
-      this.events.listen('updateProject', (payload: Projects) => {
-        const savedProjects = localStorage.getItem('savedProjects');
-        const projects = parseProjects(savedProjects);
-        const updatedProjects = projects.map((project) =>
-          project.id === payload.id ? payload : project,
-        );
-
-        this.allProjectsService.setMyProjects(updatedProjects);
-        localStorage.setItem('savedProjects', JSON.stringify(updatedProjects));
-        this.snackBar.show('Updated Project', 'success');
-      }),
+ this.subscriptions.push(
+  this.events.listen('updateProject', (payload: Projects) => {
+    const projects = this.allProjectsService.myProjects();
+    const updatedProjects = projects.map((project) =>
+      project.id === payload.id ? payload : project
     );
+
+    this.allProjectsService.setMyProjects(updatedProjects);
+    localStorage.setItem('savedProjects', JSON.stringify(updatedProjects));
+    this.snackBar.show('Updated Project', 'success');
+  }),
+);
+
+
   }
 
   public ngOnInit(): void {
