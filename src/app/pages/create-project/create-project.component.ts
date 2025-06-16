@@ -42,7 +42,7 @@ export class CreateProjectComponent implements OnInit {
     private allProjectsService: AllProjectsService,
     private router: Router,
   ) {
-    this.myProjects = this.allProjectsService.myProjects;
+    this.myProjects = this.allProjectsService.getMyProjects;
   }
 
   public ngOnInit(): void {}
@@ -53,12 +53,12 @@ export class CreateProjectComponent implements OnInit {
 
     if (this.newProject.invalid || !projectText || !projectPrio) return;
 
-    const currentProjects = this.allProjectsService.myProjects();
+    const currentProjects = this.allProjectsService.getMyProjects();
     const maxId = currentProjects.length
       ? Math.max(...currentProjects.map(p => p.id))
       : 0;
 
-    const project = new Projects(maxId + 1, projectText, undefined, projectPrio);
+    const project = new Projects( maxId + 1, projectText, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), false, projectPrio);
 
     const allProjects = [...currentProjects, project];
     this.allProjectsService.setMyProjects(allProjects);

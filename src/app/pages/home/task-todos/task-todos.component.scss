@@ -40,8 +40,8 @@
   }
 
   &__content {
-    height: 40vh;
-    min-height: auto;
+    min-height: 200px;
+    height: auto;
     overflow-y: auto;
     width: 100%;
     border: 1px solid gray;

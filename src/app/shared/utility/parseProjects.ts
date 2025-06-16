@@ -14,6 +14,7 @@ export function parseProjects(value: string | any[] | null): Projects[] {
           p.id,
           p.title,
           p.deadline ? new Date(p.deadline) : p.deadline,
+          p.completed,
           p.priority || 'Low',
         ),
     );

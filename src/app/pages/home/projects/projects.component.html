@@ -2,17 +2,23 @@
   <h1 class="task-layout__title">Projects</h1>
 
   <div class="task-layout__header">
-    <a routerLink="create-project">
-      <app-generic-button class="task-layout__add-button" text="Add Project" />
-    </a>
+  <div class="task-layout__add-button">
+      <app-generic-button routerLink="create-project" text="Add Project" />
   </div>
 
+  <div class="task-layout__searchbar">
+    <app-searchbar *ngIf="isBrowser" (search)="onSearchTerm($event)"></app-searchbar>
+  </div>
+</div>
+
+
   <div class="task-layout__content">
-    <app-project-list
-      *ngIf="myProjects().length > 0; else noProjects"
-      [myProjects]="myProjects()"
+   <app-project-list
+      *ngIf="filteredProjects().length > 0; else noProjects"
+      [myProjects]="filteredProjects()"
       [isLoading]="isLoading"
       class="task-layout__project-list"
+      (toggled)="onToggleProject($event)"
     />
     <ng-template #noProjects>
       <p class="task-layout__no-projects" *ngIf="!isLoading" role="status" aria-live="polite">
@@ -21,5 +27,7 @@
     </ng-template>
   </div>
 
-  <div class="task-layout__footer"></div>
+    <div class="task-layout__footer">
+      <app-task-completion [percentCompleted]="percentCompleted" />
+    </div>
 </div>

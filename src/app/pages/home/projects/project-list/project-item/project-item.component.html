@@ -34,6 +34,17 @@
     </button>
   </div>
 
+  <div class="project-task__actions">
+    <mat-checkbox
+      class="project-task__icon"
+      aria-label="Toggle Completed"
+      (change)="toggleCompleted()"
+      [checked]="project.completed"
+    >
+    </mat-checkbox>
+    <p class="project-task__text">Done</p>
+  </div>
+
   <div class="project-task__priority">
     <p>{{ project.priority | capitalize }}</p>
   </div>

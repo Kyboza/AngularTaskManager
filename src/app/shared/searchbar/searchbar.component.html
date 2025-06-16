@@ -1,0 +1,13 @@
+<div class="searchbar_container">
+<mat-form-field appearance="outline" class="searchbar">
+    <mat-label>Sök projekt...</mat-label>
+      <input type="text" matInput placeholder="Sök Projekt..." [formControl]="searchControl" [matAutocomplete]="auto"/>
+      <mat-icon matSuffix>search</mat-icon>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions" [value]="option">
+            {{option}}
+        </mat-option>
+      </mat-autocomplete>
+</mat-form-field>
+</div>
+

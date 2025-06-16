@@ -45,6 +45,11 @@ export class ProjectItemComponent {
     this.noEdit = !this.noEdit;
   }
 
+  public toggleCompleted(): void {
+    this.project.completed = !this.project.completed;
+    this.toggled.emit(this.project);
+  }
+
   public updateDisplayId(id: number): void {
     this.projectService.setProjectId(id);
   }

@@ -15,16 +15,16 @@
   padding: 1rem;
 
   &__header {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1rem;
   }
 
   &__content {
-    min-height: auto;
-    height: 40vh;
+    min-height: 200px;
+    height: auto;
     overflow-y: auto;
     width: 100%;
     border: 1px solid gray;
@@ -45,11 +45,23 @@
   &__no-projects {
     font-size: large;
   }
+
+  .task-layout__add-button{
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%; // gör så att innehållet centreras i y-led
+  }
+
+  .task-layout__searchbar{
+  width: 50%;
+  height: 100%; // gör så att innehållet centreras i y-led
+  }
 }
 
-@media screen and (min-width: 376px) and (max-width: 668px) {
+@media screen and (min-width: 375px) and (max-width: 668px) {
   .task-layout__content {
-    min-height: 40vh;
-    width: 100%;
+    width: 110%;
   }
 }

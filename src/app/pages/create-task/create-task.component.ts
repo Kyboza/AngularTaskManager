@@ -48,7 +48,7 @@ export class CreateTaskComponent {
     private router: Router,
   ) {
     this.myTasks = this.laterTaskService.myTasks;
-    this.myProjects = this.allProjectsService.myProjects;
+    this.myProjects = this.allProjectsService.getMyProjects;
   }
 
   public createTask(): void {

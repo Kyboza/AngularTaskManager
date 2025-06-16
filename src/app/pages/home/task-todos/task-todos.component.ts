@@ -16,6 +16,7 @@ import { parseTasks } from '../../../shared/utility/parseTasks';
 import { Tasks } from '../../../shared/models/tasks';
 import { ProjectService } from '../../../shared/services/projectId-service/project.service';
 import { LaterTaskService } from '../../../shared/services/later-task-service/later-task.service';
+import { AllProjectsService } from '../../../shared/services/projects-service/allProjects.service';
 
 @Component({
   selector: 'app-task-todos',
@@ -46,6 +47,7 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     private snackBar: SnackbarService,
     private projectService: ProjectService,
     private laterTasksService: LaterTaskService,
+    private allProjects: AllProjectsService
   ) {
     this.myTasks = this.laterTasksService.myTasks;
     this.filter = this.laterTasksService.filter;
@@ -145,6 +147,7 @@ export class TaskTodosComponent implements OnInit, OnDestroy {
     });
     localStorage.setItem('savedTodos', JSON.stringify(updatedTodos));
     this.laterTasksService.setTasks(updatedTodos);
+    this.allProjects.updateProjectCompletion(task.projectId)
   }
 
   public ngOnDestroy(): void {
